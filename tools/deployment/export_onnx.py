@@ -65,10 +65,6 @@ def main(args, ):
     else:
         output_file = args.resume.replace('.pth', '.onnx') if args.resume else 'model.onnx'
 
-    print("-------------------------------------")
-    print(f"Exporting ONNX model to {output_file}")
-    print("-------------------------------------")
-
     torch.onnx.export(
         model,
         (data, size),
