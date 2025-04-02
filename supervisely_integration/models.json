@@ -2,10 +2,10 @@
     {
         "Model": "DEIM D-FINE-N",
         "dataset": "COCO",
-        "AP_val": 49.0,
-        "Params(M)": 20,
-        "Latency": "4.59ms",
-        "GFLOPs": 60,
+        "AP_val": 43.0,
+        "Params(M)": 4,
+        "Latency": "2.12ms",
+        "GFLOPs": 7,
         "meta": {
             "task_type": "object detection",
             "model_name": "DEIM D-FINE-N",
@@ -18,10 +18,10 @@
     {
         "Model": "DEIM D-FINE-S",
         "dataset": "COCO",
-        "AP_val": 50.9,
-        "Params(M)": 31,
-        "Latency": "6.40ms",
-        "GFLOPs": 92,
+        "AP_val": 49.0,
+        "Params(M)": 10,
+        "Latency": "3.49ms",
+        "GFLOPs": 25,
         "meta": {
             "task_type": "object detection",
             "model_name": "DEIM D-FINE-S",
@@ -34,10 +34,10 @@
     {
         "Model": "DEIM D-FINE-M",
         "dataset": "COCO",
-        "AP_val": 53.2,
-        "Params(M)": 33,
-        "Latency": "6.90ms",
-        "GFLOPs": 100,
+        "AP_val": 52.7,
+        "Params(M)": 19,
+        "Latency": "5.62ms",
+        "GFLOPs": 57,
         "meta": {
             "task_type": "object detection",
             "model_name": "DEIM D-FINE-M",
@@ -50,10 +50,10 @@
     {
         "Model": "DEIM D-FINE-L",
         "dataset": "COCO",
-        "AP_val": 54.3,
-        "Params(M)": 42,
-        "Latency": "9.15ms",
-        "GFLOPs": 136,
+        "AP_val": 54.7,
+        "Params(M)": 31,
+        "Latency": "8.07ms",
+        "GFLOPs": 91,
         "meta": {
             "task_type": "object detection",
             "model_name": "DEIM D-FINE-L",
@@ -66,10 +66,10 @@
     {
         "Model": "DEIM D-FINE-X",
         "dataset": "COCO",
-        "AP_val": 55.5,
-        "Params(M)": 76,
-        "Latency": "13.66ms",
-        "GFLOPs": 259,
+        "AP_val": 56.5,
+        "Params(M)": 62,
+        "Latency": "12.89ms",
+        "GFLOPs": 202,
         "meta": {
             "task_type": "object detection",
             "model_name": "DEIM D-FINE-X",
@@ -98,10 +98,10 @@
     {
         "Model": "DEIM RT-DETRv2-M",
         "dataset": "COCO",
-        "AP_val": 53.2,
-        "Params(M)": 33,
-        "Latency": "6.90ms",
-        "GFLOPs": 100,
+        "AP_val": 50.9,
+        "Params(M)": 31,
+        "Latency": "6.40ms",
+        "GFLOPs": 92,
         "meta": {
             "task_type": "object detection",
             "model_name": "DEIM RT-DETRv2-M",
@@ -114,10 +114,10 @@
     {
         "Model": "DEIM RT-DETRv2-M*",
         "dataset": "COCO",
-        "AP_val": 50.9,
-        "Params(M)": 31,
-        "Latency": "6.40ms",
-        "GFLOPs": 92,
+        "AP_val": 53.2,
+        "Params(M)": 33,
+        "Latency": "6.90ms",
+        "GFLOPs": 100,
         "meta": {
             "task_type": "object detection",
             "model_name": "DEIM RT-DETRv2-M*",

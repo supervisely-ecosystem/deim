@@ -139,5 +139,8 @@ dmypy.json
 
 # sly
 app_data
-output
+outputs
 configs/deim_rtdetrv2/custom_config.yml
+configs/deim_rtdetrv2/model_config.yml
+configs/deim_dfine/custom_config.yml
+configs/deim_dfine/model_config.yml
