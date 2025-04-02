@@ -30,6 +30,11 @@ def _get_args_onnx():
 
 def export_tensorrt(onnx_path: str, output_dir: str = None, fp16=True):
     output_engine_path = _resolve_output_path(onnx_path, '.engine', output_dir)
+
+    print("-------------------------------------")
+    print(f"Exporting TensorRT model to {output_engine_path}")
+    print("-------------------------------------")
+
     if os.path.exists(output_engine_path):
         return output_engine_path
     # export dynamic shape

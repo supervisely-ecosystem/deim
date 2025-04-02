@@ -61,6 +61,9 @@ def main(args, ):
     }
 
     output_file = args.resume.replace('.pth', '.onnx') if args.resume else 'model.onnx'
+    print("-------------------------------------")
+    print(f"Exporting ONNX model to {output_file}")
+    print("-------------------------------------")
 
     torch.onnx.export(
         model,
@@ -95,9 +98,9 @@ if __name__ == '__main__':
 
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('--config', '-c', default='configs/dfine/dfine_hgnetv2_l_coco.yml', type=str, )
+    parser.add_argument('--config', '-c', type=str, )
     parser.add_argument('--resume', '-r', type=str, )
-    parser.add_argument('--check',  action='store_true', default=True,)
-    parser.add_argument('--simplify',  action='store_true', default=True,)
+    parser.add_argument('--check',  action='store_true', default=False,)
+    parser.add_argument('--simplify',  action='store_true', default=False,)
     args = parser.parse_args()
     main(args)
