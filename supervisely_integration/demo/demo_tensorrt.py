@@ -2,7 +2,7 @@ import json
 from PIL import Image, ImageDraw
 import torch
 import torchvision.transforms as T
-from rtdetrv2_pytorch.references.deploy.rtdetrv2_tensorrt import TRTInference
+from tools.inference.trt_inf import TRTInference
 
 
 assert torch.cuda.is_available(), "TensorRT only supports GPU mode"

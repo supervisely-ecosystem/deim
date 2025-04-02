@@ -2,7 +2,7 @@ import json
 from PIL import Image, ImageDraw
 import torch
 import torchvision.transforms as T
-from rtdetrv2_pytorch.src.core import YAMLConfig
+from engine.core import YAMLConfig
 
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
