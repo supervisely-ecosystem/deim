@@ -23,7 +23,6 @@
 				"LOG_LEVEL": "DEBUG",
 				"DEBUG_APP_DIR": "app_data",
 				"APP_NAME": "Train DEIM",
-				"TASK_ID": "3106",
 				"TEAM_ID": "4",
 				"WORKSPACE_ID": "3",
 				"PROJECT_ID": "1322",

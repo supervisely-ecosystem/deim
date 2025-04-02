@@ -22,8 +22,8 @@ RUN ln -s /usr/bin/python3 /usr/bin/python \
 
 RUN pip install --no-cache-dir \
     setuptools==69.5.1 \
-    torch==2.0.1 \
-    torchvision==0.15.2 \
+    torch==2.6.0 \
+    torchvision==0.21.0 \
     onnx==1.14.0 \
     onnxruntime-gpu==1.15.1 \
     pycocotools \
