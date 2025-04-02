@@ -38,14 +38,14 @@ git clone https://github.com/supervisely-ecosystem/deim
 
 ### 2. Download checkpoint and model files from Supervisely Platform
 
-For DEIM, you need to download only the checkpoint file.
+For DEIM, you need to download the checkpoint file, model config and model meta.
 
 - **For PyTorch inference:** models can be found in the `checkpoints` folder in Team Files after training.
 - **For ONNXRuntime and TensorRT inference:** models can be found in the `export` folder in Team Files after training. If you don't see the `export` folder, please ensure that the model was exported to `ONNX` or `TensorRT` format during training.
 
 Go to Team Files in Supervisely Platform and download the files.
 
-![team_files_download](https://github.com/user-attachments/assets/865dea6a-298e-4896-bad9-4066769c0abd)
+![team_files_download](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/download-checkpoint.png)
 
 ### 3. Run inference
 

@@ -59,19 +59,19 @@ You can deploy models in optimized runtimes:
 
 1. Select pre-trained model or custom model trained inside Supervisely platform, and a runtime for inference
 
-<img src="https://github.com/user-attachments/assets/e5969562-42ab-4ca7-a070-fc1db17ed4e5" />
+<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/model-selector.png" />
 
 2. Select device and press the `Serve` button, then wait for the model to deploy.
 
-<img src="https://github.com/user-attachments/assets/37ed45b7-f72b-4789-b446-a80e5f419219" />
+<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/device-selector.png" />
 
 3. You will see a message once the model has been successfully deployed.
 
-<img src="https://github.com/user-attachments/assets/032b3767-f190-4dd2-bed8-67e6c746625a" />
+<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/model-deployed.png" />
 
 4. You can now use the model for inference and see model info.
 
-<img src="https://github.com/user-attachments/assets/d6d212ac-4b52-4744-ae74-ac15800e55a2" />
+<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/model-info.png" />
 
 # How to use your checkpoints outside Supervisely Platform
 
@@ -79,7 +79,7 @@ After you've trained a model in Supervisely, you can download the checkpoint fro
 
 **Quick start:**
 
-1. **Set up environment**. Install [requirements](https://github.com/supervisely-ecosystem/deim/blob/master/dev_requirements.txt) manually, or use our pre-built docker image from [DockerHub](https://hub.docker.com/r/supervisely/deim/tags). Clone [deim](https://github.com/supervisely-ecosystem/deim) repository with model implementation.
+1. **Set up environment**. Install [requirements](https://github.com/supervisely-ecosystem/deim/blob/master/dev_requirements.txt) manually, or use our pre-built docker image from [DockerHub](https://hub.docker.com/r/supervisely/deim/tags). Clone [DEIM](https://github.com/supervisely-ecosystem/deim) repository with model implementation.
 2. **Download** your checkpoint from Supervisely Platform.
 3. **Run inference**. Refer to our demo scripts: [demo_pytorch.py](https://github.com/supervisely-ecosystem/deim/blob/master/supervisely_integration/demo/demo_pytorch.py), [demo_onnx.py](https://github.com/supervisely-ecosystem/deim/blob/master/supervisely_integration/demo/demo_onnx.py), [demo_tensorrt.py](https://github.com/supervisely-ecosystem/deim/blob/master/supervisely_integration/demo/demo_tensorrt.py)
 
@@ -113,14 +113,14 @@ git clone https://github.com/supervisely-ecosystem/deim
 
 ### 2. Download checkpoint and model files from Supervisely Platform
 
-For deim, you need to download only the checkpoint file.
+For DEIM, you need to download the checkpoint file, model config and model meta.
 
 - **For PyTorch inference:** models can be found in the `checkpoints` folder in Team Files after training.
 - **For ONNXRuntime and TensorRT inference:** models can be found in the `export` folder in Team Files after training. If you don't see the `export` folder, please ensure that the model was exported to `ONNX` or `TensorRT` format during training.
 
 Go to Team Files in Supervisely Platform and download the files.
 
-![team_files_download](https://github.com/user-attachments/assets/865dea6a-298e-4896-bad9-4066769c0abd)
+![team_files_download](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/download-checkpoint.png)
 
 ### 3. Run inference
 
