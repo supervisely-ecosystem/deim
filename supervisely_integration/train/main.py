@@ -23,9 +23,6 @@ train = TrainApp(
 
 train.register_inference_class(DEIM)
 
-app_state = "supervisely_integration/train/app_state.json"
-train.gui.load_from_app_state(app_state)
-
 
 @train.start
 def start_training():
