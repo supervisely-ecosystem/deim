@@ -12,6 +12,7 @@ import os
 from .common import FrozenBatchNorm2d
 from ..core import register
 import logging
+from ..misc import dist_utils
 
 # Constants for initialization
 kaiming_normal_ = nn.init.kaiming_normal_
@@ -495,13 +496,15 @@ class HGNetv2(nn.Module):
                     print(f"Loaded stage1 {name} HGNetV2 from local file.")
                 else:
                     # If the file doesn't exist locally, download from the URL
-                    if torch.distributed.get_rank() == 0:
+                    if dist_utils.get_rank() == 0:
                         print(GREEN + "If the pretrained HGNetV2 can't be downloaded automatically. Please check your network connection." + RESET)
                         print(GREEN + "Please check your network connection. Or download the model manually from " + RESET + f"{download_url}" + GREEN + " to " + RESET + f"{local_model_dir}." + RESET)
                         state = torch.hub.load_state_dict_from_url(download_url, map_location='cpu', model_dir=local_model_dir)
-                        torch.distributed.barrier()
+                        if dist_utils.is_dist_available_and_initialized():
+                            torch.distributed.barrier()
                     else:
-                        torch.distributed.barrier()
+                        if dist_utils.is_dist_available_and_initialized():
+                            torch.distributed.barrier()
                         state = torch.load(local_model_dir)
 
                     print(f"Loaded stage1 {name} HGNetV2 from URL.")
@@ -509,15 +512,12 @@ class HGNetv2(nn.Module):
                 self.load_state_dict(state)
 
             except (Exception, KeyboardInterrupt) as e:
-                if torch.distributed.get_rank() == 0:
+                if dist_utils.get_rank() == 0:
                     print(f"{str(e)}")
                     logging.error(RED + "CRITICAL WARNING: Failed to load pretrained HGNetV2 model" + RESET)
                     logging.error(GREEN + "Please check your network connection. Or download the model manually from " \
                                 + RESET + f"{download_url}" + GREEN + " to " + RESET + f"{local_model_dir}." + RESET)
-                exit()
-
-
-
+                raise e
 
     def _freeze_norm(self, m: nn.Module):
         if isinstance(m, nn.BatchNorm2d):
