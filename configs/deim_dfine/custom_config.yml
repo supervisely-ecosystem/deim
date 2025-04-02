@@ -1,0 +1,48 @@
+__include__:
+- deim_hgnetv2_s_coco.yml
+batch_size: 4
+checkpoint_freq: 0
+clip_max_norm: 0.1
+ema:
+  decay: 0.9999
+  type: ModelEMA
+  warmups: 2000
+epoches: 20
+eval_spatial_size:
+- 640
+- 640
+lr_scheduler:
+  gamma: 0.1
+  milestones:
+  - 35
+  - 45
+  type: MultiStepLR
+lr_warmup_scheduler:
+  type: LinearWarmup
+  warmup_duration: 1000
+num_classes: 5
+optimizer:
+  betas:
+  - 0.9
+  - 0.999
+  lr: 0.0001
+  type: AdamW
+  weight_decay: 0.0001
+print_freq: 50
+remap_mscoco_category: false
+save_ema: false
+save_optimizer: false
+train_dataloader:
+  dataset:
+    ann_file: app_data/work_dir/sly_project/train/annotations/coco_instances.json
+    img_folder: app_data/work_dir/sly_project/train/img
+  num_workers: 4
+  total_batch_size: 4
+use_amp: true
+use_ema: true
+val_dataloader:
+  dataset:
+    ann_file: app_data/work_dir/sly_project/val/annotations/coco_instances.json
+    img_folder: app_data/work_dir/sly_project/val/img
+  num_workers: 4
+  total_batch_size: 8
