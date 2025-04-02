@@ -20,21 +20,6 @@ RUN ln -s /usr/bin/python3 /usr/bin/python \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --no-cache-dir \
-    setuptools==69.5.1 \
-    torch==2.6.0 \
-    torchvision==0.21.0 \
-    onnx==1.14.0 \
-    onnxruntime-gpu==1.15.1 \
-    pycocotools \
-    PyYAML \
-    tensorboard \
-    transformers==4.50.3 \
-    calflops==0.3.2 \
-    scipy==1.15.2 \
-    faster-coco-eval==1.6.5 \
-    imgaug==0.4.0
-
 # D-FINE models
 RUN mkdir -p ~/.cache/supervisely/checkpoints && \
     curl -L -o ~/.cache/supervisely/checkpoints/deim_dfine_hgnetv2_n_coco_160e.pth https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_dfine_hgnetv2_n_coco_160e.pth && \
@@ -50,5 +35,20 @@ RUN mkdir -p ~/.cache/supervisely/checkpoints && \
     curl -L -o ~/.cache/supervisely/checkpoints/deim_rtdetrv2_r50vd_m_coco_60e.pth https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_rtdetrv2_r50vd_m_coco_60e.pth && \
     curl -L -o ~/.cache/supervisely/checkpoints/deim_rtdetrv2_r50vd_coco_60e.pth https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_rtdetrv2_r50vd_coco_60e.pth && \
     curl -L -o ~/.cache/supervisely/checkpoints/deim_rtdetrv2_r101vd_coco_60e.pth https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_rtdetrv2_r101vd_coco_60e.pth
+
+RUN pip install --no-cache-dir \
+    setuptools==69.5.1 \
+    torch==2.6.0 \
+    torchvision==0.21.0 \
+    onnx==1.14.0 \
+    onnxruntime-gpu==1.15.1 \
+    pycocotools==2.0.8 \
+    PyYAML==6.0.2 \
+    tensorboard==2.19.0 \
+    transformers==4.50.3 \
+    calflops==0.3.2 \
+    scipy==1.15.2 \
+    faster-coco-eval==1.6.5 \
+    imgaug==0.4.0
 
 RUN pip install --no-cache-dir supervisely[training]==6.73.338
