@@ -60,7 +60,11 @@ def main(args, ):
         'orig_target_sizes': {0: 'N'}
     }
 
-    output_file = args.resume.replace('.pth', '.onnx') if args.resume else 'model.onnx'
+    if hasattr(args, 'output_file') and args.output_file:
+        output_file = args.output_file
+    else:
+        output_file = args.resume.replace('.pth', '.onnx') if args.resume else 'model.onnx'
+
     print("-------------------------------------")
     print(f"Exporting ONNX model to {output_file}")
     print("-------------------------------------")
@@ -100,6 +104,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', '-c', type=str, )
     parser.add_argument('--resume', '-r', type=str, )
+    parser.add_argument('--output_file', '-o', type=str, default='model.onnx')
     parser.add_argument('--check',  action='store_true', default=False,)
     parser.add_argument('--simplify',  action='store_true', default=False,)
     args = parser.parse_args()
