@@ -37,6 +37,11 @@ def export_tensorrt(onnx_path: str, output_dir: str = None, fp16=True):
         'trtexec',
         '--onnx=' + onnx_path,
         '--saveEngine=' + output_engine_path,
+        '--workspace=4096',
+        '--minShapes=images:1x3x640x640,orig_target_sizes:1x2',
+        '--maxShapes=images:32x3x640x640,orig_target_sizes:32x2',
+        '--optShapes=images:1x3x640x640,orig_target_sizes:1x2',
+        '--verbose',
     ]
     if fp16:
         cmd_list.append('--fp16')
