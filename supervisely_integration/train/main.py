@@ -1,6 +1,7 @@
 import os
 import torch
 import shutil
+import psutil
 from multiprocessing import cpu_count
 
 import yaml
@@ -12,8 +13,13 @@ from supervisely.nn import ModelSource, RuntimeType
 from supervisely.nn.training.train_app import TrainApp
 from supervisely_integration.export import export_onnx, export_tensorrt
 from supervisely_integration.serve.deim import DEIM
+from supervisely_integration.train.utils import print_ram_usage
+
 
 base_path = "supervisely_integration/train"
+
+print_ram_usage("Before TrainApp")
+
 train = TrainApp(
     "DEIM",
     f"supervisely_integration/models.json",
@@ -21,18 +27,28 @@ train = TrainApp(
     f"{base_path}/app_options.yaml",
 )
 
+print_ram_usage("After TrainApp")
+
 train.register_inference_class(DEIM)
 
+print_ram_usage("After register_inference_class")
 
 @train.start
 def start_training():
+
+    print_ram_usage("Before convert_data")
     train_ann_path, val_ann_path = convert_data()
+    print_ram_usage("After convert_data")
     checkpoint = train.model_files["checkpoint"]
     custom_config_path = prepare_config(train_ann_path, val_ann_path)
+
+    print_ram_usage("Before YAMLConfig")
+
     cfg = YAMLConfig(
         custom_config_path,
         tuning=checkpoint,
     )
+    print_ram_usage("After YAMLConfig")
     cfg.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     output_dir = cfg.output_dir
     os.makedirs(output_dir, exist_ok=True)
@@ -41,11 +57,17 @@ def start_training():
     with open(model_config_path, "w") as f:
         yaml.dump(cfg.yaml_cfg, f)
     remove_include(model_config_path)
+
+    print_ram_usage("Before start_tensorboard")
+
     # train
     tensorboard_logs = f"{output_dir}/summary"
     train.start_tensorboard(tensorboard_logs)
+    print_ram_usage("After start_tensorboard")
     solver = DetSolver(cfg)
+    print_ram_usage("Before solver.fit")
     solver.fit()
+    print_ram_usage("After solver.fit")
     # gather experiment info
     experiment_info = {
         "model_name": train.model_name,

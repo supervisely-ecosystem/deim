@@ -19,7 +19,7 @@ from .det_engine import train_one_epoch, evaluate
 from ..optim.lr_scheduler import FlatCosineLRScheduler
 
 from supervisely.nn.training import train_logger
-
+from supervisely_integration.train.utils import print_ram_usage
 
 class DetSolver(BaseSolver):
 
@@ -67,8 +67,13 @@ class DetSolver(BaseSolver):
         best_stat_print = best_stat.copy()
         start_time = time.time()
         start_epoch = self.last_epoch + 1
+
+
+        print_ram_usage("Before Train START")
         train_logger.train_started(total_epochs=(args.epoches - start_epoch))
         for epoch in range(start_epoch, args.epoches):
+            print_ram_usage(f"Epoch {epoch} START")
+
 
             self.train_dataloader.set_epoch(epoch)
             # self.train_dataloader.dataset.set_epoch(epoch)
@@ -111,6 +116,7 @@ class DetSolver(BaseSolver):
                     checkpoint_paths.append(self.output_dir / f'checkpoint{epoch:04}.pth')
                 for checkpoint_path in checkpoint_paths:
                     dist_utils.save_on_master(self.state_dict(), checkpoint_path)
+
 
             module = self.ema.module if self.ema else self.model
             test_stats, coco_evaluator = evaluate(
@@ -186,6 +192,8 @@ class DetSolver(BaseSolver):
                                     self.output_dir / "eval" / name)
 
             train_logger.epoch_finished()
+            print_ram_usage(f"Epoch {epoch} END")
+
             
             # Clear memory after each epoch
             if torch.cuda.is_available():
