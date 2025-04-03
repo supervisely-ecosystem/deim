@@ -59,6 +59,10 @@ class DetSolver(BaseSolver):
                 best_stat[k] = test_stats[k][0]
                 top1 = test_stats[k][0]
                 print(f'best_stat: {best_stat}')
+                
+            # Clear memory after evaluation
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
 
         best_stat_print = best_stat.copy()
         start_time = time.time()
@@ -141,7 +145,7 @@ class DetSolver(BaseSolver):
                             dist_utils.save_on_master(self.state_dict(), self.output_dir / 'best.pth')
 
                 best_stat_print[k] = max(best_stat[k], top1)
-                print(f'best_stat: {best_stat_print}')  # global best
+                print(f'best_stat: {best_stat_print}')
 
                 if best_stat['epoch'] == epoch and self.output_dir:
                     if epoch >= self.train_dataloader.collate_fn.stop_epoch:
@@ -182,6 +186,15 @@ class DetSolver(BaseSolver):
                                     self.output_dir / "eval" / name)
 
             train_logger.epoch_finished()
+            
+            # Clear memory after each epoch
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+                
+            # Clear unused variables
+            del train_stats, test_stats, log_stats
+            if 'coco_evaluator' in locals():
+                del coco_evaluator
 
         train_logger.train_finished()
         total_time = time.time() - start_time

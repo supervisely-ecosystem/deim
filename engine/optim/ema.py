@@ -64,6 +64,11 @@ class ModelEMA(object):
                 if v.dtype.is_floating_point:
                     v *= d
                     v += (1 - d) * msd[k].detach()
+                    
+            # Clear memory after updating EMA
+            del msd
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
 
     def to(self, *args, **kwargs):
         self.module = self.module.to(*args, **kwargs)

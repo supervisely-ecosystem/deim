@@ -119,6 +119,17 @@ def train_one_epoch(self_lr_scheduler, lr_scheduler, model: torch.nn.Module, cri
                 writer.add_scalar(f'Loss/{k}', v.item(), global_step)
 
         train_logger.step_finished()
+        
+        # Clear memory after each iteration
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+            
+        # Clear unused variables
+        del outputs, loss_dict, loss, loss_dict_reduced, loss_value
+        if 'samples' in locals():
+            del samples
+        if 'targets' in locals():
+            del targets
 
     # gather the stats from all processes
     metric_logger.synchronize_between_processes()
