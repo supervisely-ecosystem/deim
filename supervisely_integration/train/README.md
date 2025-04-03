@@ -52,31 +52,31 @@ This app allows you to train models using DEIM checkpoints from D-FINE and RT-DE
 
 **Step 1.** Select if you want to use cached project or redownload it
 
-<img src="https://github.com/user-attachments/assets/2b5f867e-7d99-4c06-9a4c-96ba29523941" width="100%" style='padding-top: 10px'>  
+<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-1.png" width="100%" style='padding-top: 10px'>  
 
 **Step 2.** Select train / val split
 
-<img src="https://github.com/user-attachments/assets/cb50e8e1-9e10-4195-b000-c694358f5ab1" width="100%" style='padding-top: 10px'>  
+<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-2.png" width="100%" style='padding-top: 10px'>  
 
 **Step 3.** Select the classes you want to train on
 
-<img src="https://github.com/user-attachments/assets/7b5d22a8-6c43-4b3f-b262-01a9ed2e58d4" width="100%" style='padding-top: 10px'>  
+<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-3.png" width="100%" style='padding-top: 10px'>  
 
 **Step 4.** Select the model you want to train
 
-<img src="https://github.com/user-attachments/assets/fa4df097-4e8d-48ae-b53d-44ff8a7beb5a" width="100%" style='padding-top: 10px'>  
+<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-4.png" width="100%" style='padding-top: 10px'>  
 
 **Step 5.** Configure hyperaparameters and select whether you want to use model evaluation and convert checkpoints to ONNX and TensorRT
 
-<img src="https://github.com/user-attachments/assets/4cf73b4e-f3c8-47db-91c6-7145c2352274" width="100%" style='padding-top: 10px'>  
+<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-5.png" width="100%" style='padding-top: 10px'>  
 
 **Step 6.** Enter experiment name and start training
 
-<img src="https://github.com/user-attachments/assets/fdb2943d-7ee2-4ff8-8616-3587911ce270" width="100%" style='padding-top: 10px'>  
+<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-6.png" width="100%" style='padding-top: 10px'>  
 
 **Step 7.** Monitor training progress
 
-<img src="https://github.com/user-attachments/assets/41f2d8b3-dd5a-4f4c-9605-1a3fa5e89827" width="100%" style='padding-top: 10px'>  
+<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-7.png" width="100%" style='padding-top: 10px'>  
 
 # Obtain saved checkpoints
 
@@ -92,7 +92,7 @@ After you've trained a model in Supervisely, you can download the checkpoint fro
 
 **Quick start:**
 
-1. **Set up environment**. Install [requirements](https://github.com/supervisely-ecosystem/deim/blob/master/dev_requirements.txt) manually, or use our pre-built docker image from [DockerHub](https://hub.docker.com/r/supervisely/deim/tags). Clone [deim](https://github.com/supervisely-ecosystem/deim) repository with model implementation.
+1. **Set up environment**. Install [requirements](https://github.com/supervisely-ecosystem/deim/blob/master/dev_requirements.txt) manually, or use our pre-built docker image from [DockerHub](https://hub.docker.com/r/supervisely/deim/tags). Clone [DEIM](https://github.com/supervisely-ecosystem/deim) repository with model implementation.
 2. **Download** your checkpoint from Supervisely Platform.
 3. **Run inference**. Refer to our demo scripts: [demo_pytorch.py](https://github.com/supervisely-ecosystem/deim/blob/master/supervisely_integration/demo/demo_pytorch.py), [demo_onnx.py](https://github.com/supervisely-ecosystem/deim/blob/master/supervisely_integration/demo/demo_onnx.py), [demo_tensorrt.py](https://github.com/supervisely-ecosystem/deim/blob/master/supervisely_integration/demo/demo_tensorrt.py)
 
@@ -126,14 +126,14 @@ git clone https://github.com/supervisely-ecosystem/deim
 
 ### 2. Download checkpoint and model files from Supervisely Platform
 
-For DEIM, you need to download the checkpoint file and model config.
+For DEIM, you need to download the checkpoint file, model config and model meta.
 
 - **For PyTorch inference:** models can be found in the `checkpoints` folder in Team Files after training.
 - **For ONNXRuntime and TensorRT inference:** models can be found in the `export` folder in Team Files after training. If you don't see the `export` folder, please ensure that the model was exported to `ONNX` or `TensorRT` format during training.
 
 Go to Team Files in Supervisely Platform and download the files.
 
-![team_files_download](https://github.com/user-attachments/assets/865dea6a-298e-4896-bad9-4066769c0abd)
+![team_files_download](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/download-checkpoint.png)
 
 ### 3. Run inference
 
@@ -142,7 +142,6 @@ We provide several demo scripts to run inference with your checkpoint:
 - [demo_pytorch.py](https://github.com/supervisely-ecosystem/deim/blob/master/supervisely_integration/demo/demo_pytorch.py) - simple PyTorch inference
 - [demo_onnx.py](https://github.com/supervisely-ecosystem/deim/blob/master/supervisely_integration/demo/demo_onnx.py) - ONNXRuntime inference
 - [demo_tensorrt.py](https://github.com/supervisely-ecosystem/deim/blob/master/supervisely_integration/demo/demo_tensorrt.py) - TensorRT inference
-
 
 # Acknowledgment
 
