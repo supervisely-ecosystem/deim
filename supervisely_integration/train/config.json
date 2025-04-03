@@ -11,9 +11,9 @@
 		"train",
 		"framework:DEIM"
 	],
-	"icon": "",
+	"icon": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/icon_deim_train.png",
 	"icon_cover": true,
-	"poster": "",
+	"poster": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/poster_deim_train.png",
 	"description": "Train DEIM model on your data",
 	"docker_image": "supervisely/deim:1.0.0",
 	"instance_version": "6.12.34",

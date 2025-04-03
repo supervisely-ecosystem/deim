@@ -1,14 +1,14 @@
 <div align="center" markdown>
 
-<img src=""/>  
+<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/poster_deim_serve.png"/>
 
 # Serve DEIM
 
 <p align="center">
-  <a href="#Overview">Overview</a> •
-  <a href="#How-To-Run">How To Run</a> •
+  <a href="#overview">Overview</a> •
+  <a href="#how-to-run">How To Run</a> •
   <a href="#how-to-use-your-checkpoints-outside-supervisely-platform">How to use checkpoints outside Supervisely Platform</a> •
-  <a href="#Acknowledgment">Acknowledgment</a>
+  <a href="#acknowledgment">Acknowledgment</a>
 </p>
 
 [![](https://img.shields.io/badge/supervisely-ecosystem-brightgreen)](https://ecosystem.supervisely.com/apps/supervisely-ecosystem/deim/supervisely_integration/serve)

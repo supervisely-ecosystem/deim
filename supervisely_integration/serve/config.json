@@ -11,9 +11,9 @@
 		"serve",
 		"framework:DEIM"
 	],
-	"icon": "",
+	"icon": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/icon_deim_serve.png",
 	"icon_cover": true,
-	"poster": "",
+	"poster": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/poster_deim_serve.png",
 	"description": "Deploy DEIM as a REST API service",
 	"need_gpu": false,
 	"gpu": "preferred",
