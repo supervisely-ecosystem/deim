@@ -84,7 +84,7 @@ All trained checkpoints that are generated through the training process are stor
 
 You will see a folder thumbnail with a link to your saved checkpoints by the end of training process.
 
-<img src="https://github.com/user-attachments/assets/10a7a32a-8adc-4cc0-b05d-ff1ef8e08552" width="100%" style='padding-top: 10px'>  
+<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-8.png" width="100%" style='padding-top: 10px'>  
 
 # How to use your checkpoints outside Supervisely Platform
 
