@@ -60,43 +60,73 @@ class DEIM(sly.nn.inference.ObjectDetection):
         )
 
         if runtime == RuntimeType.PYTORCH:
-            self.cfg = YAMLConfig(config_path, resume=checkpoint_path)
-            checkpoint = torch.load(checkpoint_path, map_location="cpu")
-            state = checkpoint["ema"]["module"] if "ema" in checkpoint else checkpoint["model"]
-            self.model = self.cfg.model
-            self.model.load_state_dict(state)
-            self.model.deploy().to(device)
-            self.postprocessor = self.cfg.postprocessor.deploy().to(device)
-        elif runtime in [RuntimeType.ONNXRUNTIME, RuntimeType.TENSORRT]:
-            onnx_model_path = None
-            engine_path = None
-            if checkpoint_path.endswith(".pth"):
+            self._load_pytorch(checkpoint_path, config_path, device)
+        elif runtime == RuntimeType.ONNXRUNTIME:
+            self._load_runtime(checkpoint_path, config_path, "onnx", device)
+        elif runtime == RuntimeType.TENSORRT:
+            self._load_runtime(checkpoint_path, config_path, "tensorrt", device)
+
+    def _load_runtime(self, checkpoint_path: str, config_path: str, format: str, device: str):
+        def export_model():
+            sly.logger.info(f"Exporting model to '{format}' format...")
+            if self.gui is not None:
+                bar = self.gui.download_progress(
+                    message=f"Exporting model to '{format}' format...", total=1
+                )
+                self.gui.download_progress.show()
+            if format == "onnx":
                 onnx_model_path = export_onnx(checkpoint_path, config_path, self.model_dir)
-            elif checkpoint_path.endswith(".onnx"):
-                onnx_model_path = checkpoint_path
-            elif checkpoint_path.endswith(".engine"):
-                engine_path = checkpoint_path
-            if runtime == RuntimeType.ONNXRUNTIME:
-                import onnxruntime
+            elif format == "tensorrt":
+                onnx_model_path = export_onnx(checkpoint_path, config_path, self.model_dir)
+                engine_path = export_tensorrt(onnx_model_path, self.model_dir, fp16=True)
+            if self.gui is not None:
+                bar.update(1)
+                self.gui.download_progress.hide()
+            if format == "onnx":
+                return onnx_model_path
+            elif format == "tensorrt":
+                return engine_path
 
-                providers = (
-                    ["CUDAExecutionProvider"] if device != "cpu" else ["CPUExecutionProvider"]
-                )
-                if device != "cpu":
-                    assert (
-                        onnxruntime.get_device() == "GPU"
-                    ), "ONNXRuntime is not configured to use GPU"
-                self.onnx_session = onnxruntime.InferenceSession(
-                    onnx_model_path, providers=providers
-                )
-            elif runtime == RuntimeType.TENSORRT:
-                from tools.inference.trt_inf import TRTInference
+        if checkpoint_path.endswith(".pth"):
+            exported_checkpoint_path = checkpoint_path.replace(".pth", f".{format}")
+            file_name = sly.fs.get_file_name(checkpoint_path)
+            if file_name == "best" or not os.path.exists(exported_checkpoint_path):
+                exported_checkpoint_path = export_model()
+        else:
+            exported_checkpoint_path = checkpoint_path   
 
-                assert device != "cpu", "TensorRT is not supported on CPU"
-                if engine_path is None:
-                    engine_path = export_tensorrt(onnx_model_path, self.model_dir, fp16=True)
-                self.engine = TRTInference(engine_path, device)
-                self.max_batch_size = 1
+        if format == "onnx":
+            self._load_onnx(exported_checkpoint_path, device)
+        elif format == "tensorrt":
+            self._load_tensorrt(exported_checkpoint_path, device)
+
+    def _load_pytorch(self, checkpoint_path: str, config_path: str, device: str):
+        self.cfg = YAMLConfig(config_path, resume=checkpoint_path)
+        checkpoint = torch.load(checkpoint_path, map_location="cpu")
+        state = checkpoint["ema"]["module"] if "ema" in checkpoint else checkpoint["model"]
+        self.model = self.cfg.model
+        self.model.load_state_dict(state)
+        self.model.deploy().to(device)
+        self.postprocessor = self.cfg.postprocessor.deploy().to(device)
+
+    def _load_onnx(self, onnx_path: str, device: str):
+        import onnxruntime
+        providers = (
+            ["CUDAExecutionProvider"] if device != "cpu" else ["CPUExecutionProvider"]
+        )
+        if device != "cpu":
+            assert (
+                onnxruntime.get_device() == "GPU"
+            ), "ONNXRuntime is not configured to use GPU"
+        self.onnx_session = onnxruntime.InferenceSession(
+            onnx_path, providers=providers
+        )
+
+    def _load_tensorrt(self, engine_path: str, device: str):
+        from tools.inference.trt_inf import TRTInference
+        assert device != "cpu", "TensorRT is not supported on CPU"
+        self.engine = TRTInference(engine_path, device)
+        self.max_batch_size = 1
 
     def predict_benchmark(self, images_np: List[np.ndarray], settings: dict = None):
         if self.runtime == RuntimeType.PYTORCH:
