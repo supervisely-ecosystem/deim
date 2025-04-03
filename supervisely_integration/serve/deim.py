@@ -68,8 +68,14 @@ class DEIM(sly.nn.inference.ObjectDetection):
             self.model.deploy().to(device)
             self.postprocessor = self.cfg.postprocessor.deploy().to(device)
         elif runtime in [RuntimeType.ONNXRUNTIME, RuntimeType.TENSORRT]:
-            # when runtime is ONNX and weights is .pth
-            onnx_model_path = export_onnx(checkpoint_path, config_path, self.model_dir)
+            onnx_model_path = None
+            engine_path = None
+            if checkpoint_path.endswith(".pth"):
+                onnx_model_path = export_onnx(checkpoint_path, config_path, self.model_dir)
+            elif checkpoint_path.endswith(".onnx"):
+                onnx_model_path = checkpoint_path
+            elif checkpoint_path.endswith(".engine"):
+                engine_path = checkpoint_path
             if runtime == RuntimeType.ONNXRUNTIME:
                 import onnxruntime
 
@@ -87,7 +93,8 @@ class DEIM(sly.nn.inference.ObjectDetection):
                 from tools.inference.trt_inf import TRTInference
 
                 assert device != "cpu", "TensorRT is not supported on CPU"
-                engine_path = export_tensorrt(onnx_model_path, self.model_dir, fp16=True)
+                if engine_path is None:
+                    engine_path = export_tensorrt(onnx_model_path, self.model_dir, fp16=True)
                 self.engine = TRTInference(engine_path, device)
                 self.max_batch_size = 1
 
