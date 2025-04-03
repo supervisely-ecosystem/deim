@@ -75,8 +75,10 @@ class DEIM(sly.nn.inference.ObjectDetection):
                 )
                 self.gui.download_progress.show()
             if format == "onnx":
+                self._remove_existing_checkpoints(checkpoint_path, format)
                 onnx_model_path = export_onnx(checkpoint_path, config_path, self.model_dir)
             elif format == "tensorrt":
+                self._remove_existing_checkpoints(checkpoint_path, format)
                 onnx_model_path = export_onnx(checkpoint_path, config_path, self.model_dir)
                 engine_path = export_tensorrt(onnx_model_path, self.model_dir, fp16=True)
             if self.gui is not None:
@@ -244,3 +246,16 @@ class DEIM(sly.nn.inference.ObjectDetection):
             config.pop("__include__")
             with open(config_path, "w") as f:
                 yaml.dump(config, f)
+
+    def _remove_existing_checkpoints(self, checkpoint_path: str, format: str):
+        if format == "onnx":
+            onnx_path = checkpoint_path.replace(".pth", ".onnx")
+            if os.path.exists(onnx_path):
+                sly.fs.silent_remove(onnx_path)
+        elif format == "tensorrt":
+            onnx_path = checkpoint_path.replace(".pth", ".onnx")
+            engine_path = checkpoint_path.replace(".pth", ".engine")
+            if os.path.exists(onnx_path):
+                sly.fs.silent_remove(onnx_path)
+            if os.path.exists(engine_path):
+                sly.fs.silent_remove(engine_path)
