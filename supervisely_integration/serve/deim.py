@@ -87,10 +87,13 @@ class DEIM(sly.nn.inference.ObjectDetection):
             elif format == "tensorrt":
                 return engine_path
 
-        if checkpoint_path.endswith(".pth"):
+        file_name = sly.fs.get_file_name(checkpoint_path)
+        file_ext = sly.fs.get_file_ext(checkpoint_path)
+        if file_name == "best" and file_ext == ".pth":
+            exported_checkpoint_path = export_model()
+        elif file_ext == ".pth":
             exported_checkpoint_path = checkpoint_path.replace(".pth", f".{format}")
-            file_name = sly.fs.get_file_name(checkpoint_path)
-            if file_name == "best" or not os.path.exists(exported_checkpoint_path):
+            if not os.path.exists(exported_checkpoint_path):
                 exported_checkpoint_path = export_model()
         else:
             exported_checkpoint_path = checkpoint_path   
