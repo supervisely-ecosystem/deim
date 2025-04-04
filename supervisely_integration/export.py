@@ -34,14 +34,21 @@ def export_tensorrt(onnx_path: str, output_dir: str = None, fp16=True):
         return output_engine_path
     # export dynamic shape
     cmd_list = [
-        'trtexec',
+        #'trtexec'
+        '/usr/src/tensorrt/bin/trtexec',
         '--onnx=' + onnx_path,
         '--saveEngine=' + output_engine_path,
-        '--workspace=4096',
         '--minShapes=images:1x3x640x640,orig_target_sizes:1x2',
-        '--maxShapes=images:32x3x640x640,orig_target_sizes:32x2',
+        '--maxShapes=images:8x3x640x640,orig_target_sizes:8x2',
         '--optShapes=images:1x3x640x640,orig_target_sizes:1x2',
-        '--verbose',
+        '--skipInference',
+        '--noBuilderCache',
+        '--noCompilationCache',
+        '--builderOptimizationLevel=3',
+        '--maxAuxStreams=0',
+        '--allocationStrategy=profile',
+        # '--monitorMemory',
+        #'--verbose',
     ]
     if fp16:
         cmd_list.append('--fp16')
