@@ -30,6 +30,18 @@ class DEIM(sly.nn.inference.ObjectDetection):
     def load_model(
         self, model_files: dict, model_info: dict, model_source: str, device: str, runtime: str
     ):
+        # Clear all model attributes and configuration
+        if hasattr(self, 'model'):
+            del self.model
+        if hasattr(self, 'postprocessor'):
+            del self.postprocessor
+        if hasattr(self, 'onnx_session'):
+            del self.onnx_session
+        if hasattr(self, 'engine'):
+            del self.engine
+        if hasattr(self, 'cfg'):
+            del self.cfg
+
         checkpoint_path = model_files["checkpoint"]
         if model_source == ModelSource.CUSTOM:
             config_path = model_files["config"]
