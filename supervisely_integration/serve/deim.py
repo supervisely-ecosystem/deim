@@ -42,6 +42,8 @@ class DEIM(sly.nn.inference.ObjectDetection):
                 CONFIG_DIR = "configs/deim_rtdetrv2"
             config_path = f'{CONFIG_DIR}/{get_file_name_with_ext(model_files["config"])}'
             self.classes = list(mscoco_category2name.values())
+            obj_classes = [sly.ObjClass(name, sly.Rectangle) for name in self.classes]
+            self._model_meta = sly.ProjectMeta(obj_classes=obj_classes)
             self.checkpoint_info = CheckpointInfo(
                 checkpoint_name=os.path.basename(checkpoint_path),
                 model_name=model_info["meta"]["model_name"],
