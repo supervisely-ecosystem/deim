@@ -18,22 +18,23 @@ method = "deploy_from_api"
 pretrained_model_data = {
     "deploy_params": {
         "model_files": {
-            "config": "rtdetrv2_r18vd_120e_coco.yml",
-            "checkpoint": "https://github.com/lyuwenyu/storage/releases/download/v0.2/rtdetrv2_r18vd_120e_coco_rerun_48.1.pth",
+            "config": "deim_r18vd_120e_coco.yml",
+            "checkpoint": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_rtdetrv2_r18vd_coco_120e.pth",
         },
         "model_source": ModelSource.PRETRAINED,
         "model_info": {
-            "Model": "RT-DETRv2-L",
+            "Model": "DEIM RT-DETRv2-S",
             "dataset": "COCO",
-            "AP_val": 53.4,
-            "Params(M)": 42,
-            "FPS(T4)": 108,
+            "AP_val": 49.0,
+            "Params(M)": 20,
+            "Latency": "4.59ms",
+            "GFLOPs": 60,
             "meta": {
                 "task_type": "object detection",
-                "model_name": "RT-DETRv2-L",
+                "model_name": "DEIM RT-DETRv2-S",
                 "model_files": {
-                    "checkpoint": "https://github.com/lyuwenyu/storage/releases/download/v0.1/rtdetrv2_r50vd_6x_coco_ema.pth",
-                    "config": "rtdetrv2_r50vd_6x_coco.yml",
+                    "checkpoint": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_rtdetrv2_r18vd_coco_120e.pth",
+                    "config": "deim_r18vd_120e_coco.yml"
                 },
             },
         },
@@ -47,14 +48,14 @@ pretrained_model_data = {
 custom_model_data = {
     "deploy_params": {
         "model_files": {
-            "config": "/experiments/43192_Apples/68908_RT-DETRv2/model_config.yml",
-            "checkpoint": "/experiments/43192_Apples/68908_RT-DETRv2/checkpoints/best.pth",
+            "config": "/experiments/43192_Apples/75102_DEIM/model_config.yml",
+            "checkpoint": "/experiments/43192_Apples/75102_DEIM/checkpoints/best.pth",
         },
         "model_source": ModelSource.CUSTOM,
         "model_info": {
-            "artifacts_dir": "/experiments/43192_Apples/68908_RT-DETRv2",
-            "framework_name": "RT-DETRv2",
-            "model_name": "RT-DETRv2-S",
+            "artifacts_dir": "/experiments/43192_Apples/75102_DEIM",
+            "framework_name": "DEIM",
+            "model_name": "DEIM RT-DETRv2-S",
             "model_meta": "model_meta.json",
         },
         "device": "cuda",

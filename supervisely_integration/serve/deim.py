@@ -30,18 +30,6 @@ class DEIM(sly.nn.inference.ObjectDetection):
     def load_model(
         self, model_files: dict, model_info: dict, model_source: str, device: str, runtime: str
     ):
-        # Clear all model attributes and configuration
-        if hasattr(self, 'model'):
-            del self.model
-        if hasattr(self, 'postprocessor'):
-            del self.postprocessor
-        if hasattr(self, 'onnx_session'):
-            del self.onnx_session
-        if hasattr(self, 'engine'):
-            del self.engine
-        if hasattr(self, 'cfg'):
-            del self.cfg
-
         checkpoint_path = model_files["checkpoint"]
         if model_source == ModelSource.CUSTOM:
             config_path = model_files["config"]
@@ -121,7 +109,9 @@ class DEIM(sly.nn.inference.ObjectDetection):
 
     def _load_pytorch(self, checkpoint_path: str, config_path: str, device: str):
         self.cfg = YAMLConfig(config_path, resume=checkpoint_path)
-        self.model = self.cfg.model
+        if 'HGNetv2' in self.cfg.yaml_cfg:
+            self.cfg.yaml_cfg['HGNetv2']['pretrained'] = False
+
         checkpoint = torch.load(checkpoint_path, map_location="cpu")
         state = checkpoint["ema"]["module"] if "ema" in checkpoint else checkpoint["model"]
         self.model = self.cfg.model
