@@ -107,10 +107,20 @@ class DEIM(sly.nn.inference.ObjectDetection):
 
     def _load_pytorch(self, checkpoint_path: str, config_path: str, device: str):
         self.cfg = YAMLConfig(config_path, resume=checkpoint_path)
-        checkpoint = torch.load(checkpoint_path, map_location="cpu")
-        state = checkpoint["ema"]["module"] if "ema" in checkpoint else checkpoint["model"]
         self.model = self.cfg.model
-        self.model.load_state_dict(state)
+        checkpoint = torch.load(checkpoint_path, map_location="cpu")
+        if "ema" in checkpoint:
+            state_dict = checkpoint["ema"]["module"]
+        else:
+            state_dict = checkpoint["model"]
+            
+        model_state_dict = self.model.state_dict()
+        for key in state_dict:
+            if key in model_state_dict:
+                if state_dict[key].shape == model_state_dict[key].shape:
+                    model_state_dict[key] = state_dict[key]
+        
+        self.model.load_state_dict(model_state_dict, strict=False)
         self.model.deploy().to(device)
         self.postprocessor = self.cfg.postprocessor.deploy().to(device)
 
