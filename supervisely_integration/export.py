@@ -35,7 +35,7 @@ def export_tensorrt(onnx_path: str, output_dir: str = None, fp16=True):
     # export dynamic shape
     cmd_list = [
         # '/usr/src/tensorrt/bin/trtexec',
-        'trtexec'
+        'trtexec',
         '--onnx=' + onnx_path,
         '--saveEngine=' + output_engine_path,
     ]
