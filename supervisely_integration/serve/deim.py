@@ -30,12 +30,14 @@ class DEIM(sly.nn.inference.ObjectDetection):
     def load_model(
         self, model_files: dict, model_info: dict, model_source: str, device: str, runtime: str
     ):
+        self._clear_global_config()
         checkpoint_path = model_files["checkpoint"]
         if model_source == ModelSource.CUSTOM:
             config_path = model_files["config"]
             self._remove_include(config_path)
         else:
             model_name = model_info["meta"]["model_name"]
+            
             if model_name.startswith("DEIM D-FINE"):
                 CONFIG_DIR = "configs/deim_dfine"
             else:
@@ -43,7 +45,8 @@ class DEIM(sly.nn.inference.ObjectDetection):
             config_path = f'{CONFIG_DIR}/{get_file_name_with_ext(model_files["config"])}'
             self.classes = list(mscoco_category2name.values())
             obj_classes = [sly.ObjClass(name, sly.Rectangle) for name in self.classes]
-            self._model_meta = sly.ProjectMeta(obj_classes=obj_classes)
+            tag_metas = [sly.TagMeta("confidence", sly.TagValueType.ANY_NUMBER)]
+            self._model_meta = sly.ProjectMeta(obj_classes=obj_classes, tag_metas=tag_metas)
             self.checkpoint_info = CheckpointInfo(
                 checkpoint_name=os.path.basename(checkpoint_path),
                 model_name=model_info["meta"]["model_name"],
@@ -107,7 +110,7 @@ class DEIM(sly.nn.inference.ObjectDetection):
         elif format == "engine":
             self._load_tensorrt(exported_checkpoint_path, device)
 
-    def _load_pytorch(self, checkpoint_path: str, config_path: str, device: str):
+    def _load_pytorch(self, checkpoint_path: str, config_path: str, device: str):           
         self.cfg = YAMLConfig(config_path, resume=checkpoint_path)
         if 'HGNetv2' in self.cfg.yaml_cfg:
             self.cfg.yaml_cfg['HGNetv2']['pretrained'] = False
@@ -264,3 +267,14 @@ class DEIM(sly.nn.inference.ObjectDetection):
                 sly.fs.silent_remove(onnx_path)
             if os.path.exists(engine_path):
                 sly.fs.silent_remove(engine_path)
+
+    def _clear_global_config(self):
+        from collections import defaultdict
+        import engine.core.workspace
+        import sys
+        import importlib
+        
+        for module_name in list(sys.modules.keys()):
+            if module_name.startswith('engine.'):
+                importlib.reload(sys.modules[module_name])
+        engine.core.workspace.GLOBAL_CONFIG = defaultdict(dict)
