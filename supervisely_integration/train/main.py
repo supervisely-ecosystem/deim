@@ -147,7 +147,7 @@ def _set_input_size_dataloaders(custom_config: dict, size: list):
         ops = custom_config[dataloader]["dataset"]["transforms"]["ops"]
         for i, op in enumerate(ops):
             if op["type"] == "Resize":
-                ops[i]["size"] = size
+                ops[i]["size"] = list(size)
                 break
-    custom_config["train_dataloader"]["collate_fn"]["base_size"] = size
+    custom_config["train_dataloader"]["collate_fn"]["base_size"] = list(size)
         
