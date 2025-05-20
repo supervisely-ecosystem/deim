@@ -33,6 +33,7 @@ def start_training():
         custom_config_path,
         tuning=checkpoint,
     )
+    _set_input_size_dataloaders(cfg.yaml_cfg, list(cfg.yaml_cfg["eval_spatial_size"]))
     cfg.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     output_dir = cfg.output_dir
     os.makedirs(output_dir, exist_ok=True)
@@ -139,3 +140,14 @@ def remove_include(config_path: str):
         config.pop("__include__")
         with open(config_path, "w") as f:
             yaml.dump(config, f)
+
+
+def _set_input_size_dataloaders(custom_config: dict, size: list):
+    for dataloader in ["train_dataloader", "val_dataloader"]:
+        ops = custom_config[dataloader]["dataset"]["transforms"]["ops"]
+        for i, op in enumerate(ops):
+            if op["type"] == "Resize":
+                ops[i]["size"] = size
+                break
+    custom_config["train_dataloader"]["collate_fn"]["base_size"] = size
+        
