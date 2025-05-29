@@ -1,8 +1,8 @@
 import os
-import torch
 import shutil
 from multiprocessing import cpu_count
 
+import torch
 import yaml
 
 import supervisely as sly
@@ -53,6 +53,10 @@ def start_training():
         "checkpoints": output_dir,
         "best_checkpoint": "best.pth",
     }
+
+    with open(f"{output_dir}/abcd.txt", "w") as f:
+        f.write("test abcd output")
+    train.add_output_files([model_config_path, f"{output_dir}/abcd.txt"])
     return experiment_info
 
 
