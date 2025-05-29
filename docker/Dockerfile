@@ -52,3 +52,5 @@ RUN pip install --no-cache-dir \
     imgaug==0.4.0
 
 RUN pip install --no-cache-dir supervisely[training]==6.73.370
+
+LABEL python_sdk_version=6.73.370
