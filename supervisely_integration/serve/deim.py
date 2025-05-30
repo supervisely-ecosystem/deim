@@ -26,6 +26,7 @@ class DEIM(sly.nn.inference.ObjectDetection):
     MODELS = "supervisely_integration/models.json"
     APP_OPTIONS = f"{SERVE_PATH}/app_options.yaml"
     INFERENCE_SETTINGS = f"{SERVE_PATH}/inference_settings.yaml"
+    _dynamic_input_size = False
 
     def load_model(
         self, model_files: dict, model_info: dict, model_source: str, device: str, runtime: str
@@ -54,16 +55,9 @@ class DEIM(sly.nn.inference.ObjectDetection):
                 checkpoint_url=model_info["meta"]["model_files"]["checkpoint"],
                 model_source=model_source,
             )
-
-        h, w = 640, 640
-        self.img_size = [w, h]
-        self.transforms = T.Compose(
-            [
-                T.Resize((h, w)),
-                T.ToTensor(),
-            ]
-        )
-
+        with open(config_path, "r") as f:
+            yaml_cfg = yaml.safe_load(f)
+        self._load_transforms(yaml_cfg)
         if runtime == RuntimeType.PYTORCH:
             self._load_pytorch(checkpoint_path, config_path, device)
         elif runtime == RuntimeType.ONNXRUNTIME:
@@ -221,7 +215,7 @@ class DEIM(sly.nn.inference.ObjectDetection):
         imgs_pil = [Image.fromarray(img) for img in images_np]
         orig_sizes = torch.as_tensor([img.size for img in imgs_pil])
         img_input = torch.stack([self.transforms(img) for img in imgs_pil])
-        size_input = torch.tensor([self.img_size * len(images_np)]).reshape(-1, 2)
+        size_input = torch.tensor([self.input_size * len(images_np)]).reshape(-1, 2)
         return img_input.to(device), size_input.to(device), orig_sizes.to(device)
 
     def _format_prediction(
@@ -245,6 +239,16 @@ class DEIM(sly.nn.inference.ObjectDetection):
         thres = settings["confidence_threshold"]
         predictions = [self._format_prediction(*args, thres) for args in zip(labels, boxes, scores)]
         return predictions
+    
+    def _load_transforms(self, yaml_cfg: dict):
+        h, w = yaml_cfg["eval_spatial_size"]
+        self.input_size = [w, h]
+        self.transforms = T.Compose(
+            [
+                T.Resize((h, w)),
+                T.ToTensor(),
+            ]
+        )
 
     def _remove_include(self, config_path: str):
         # del "__include__" and rewrite the config
