@@ -15,8 +15,9 @@ workspace_id = sly.env.workspace_id()
 
 
 model = api.nn.deploy(
-    model="/experiments/2067_Animals (W)/14748_DEIM/checkpoints/best.pth",
-    model="/experiments/2067_Animals (W)/14748_DEIM/checkpoints/checkpoint0024.pth",
+    model="DEIM/DEIM D-FINE-N",
+    # model="/experiments/2067_Animals (W)/14748_DEIM/checkpoints/best.pth",
+    # model="/experiments/2067_Animals (W)/14748_DEIM/checkpoints/checkpoint0024.pth",
     device="cuda:0",
 )
 
