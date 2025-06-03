@@ -4,6 +4,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV PATH="/usr/src/tensorrt/bin:${PATH}"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3-dev \
     python3-pip \
     git \
     curl \
@@ -51,6 +52,6 @@ RUN pip install --no-cache-dir \
     faster-coco-eval==1.6.5 \
     imgaug==0.4.0
 
-RUN pip install --no-cache-dir supervisely[training]==6.73.370
+RUN pip install --no-cache-dir supervisely[training]==6.73.372
 
-LABEL python_sdk_version=6.73.370
+LABEL python_sdk_version=6.73.372
