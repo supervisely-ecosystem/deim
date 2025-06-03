@@ -38,7 +38,7 @@ class DEIM(sly.nn.inference.ObjectDetection):
             self._remove_include(config_path)
         else:
             model_name = model_info["meta"]["model_name"]
-            
+
             if model_name.startswith("DEIM D-FINE"):
                 CONFIG_DIR = "configs/deim_dfine"
             else:
@@ -97,17 +97,17 @@ class DEIM(sly.nn.inference.ObjectDetection):
             if not os.path.exists(exported_checkpoint_path):
                 exported_checkpoint_path = export_model()
         else:
-            exported_checkpoint_path = checkpoint_path   
+            exported_checkpoint_path = checkpoint_path
 
         if format == "onnx":
             self._load_onnx(exported_checkpoint_path, device)
         elif format == "engine":
             self._load_tensorrt(exported_checkpoint_path, device)
 
-    def _load_pytorch(self, checkpoint_path: str, config_path: str, device: str):           
+    def _load_pytorch(self, checkpoint_path: str, config_path: str, device: str):
         self.cfg = YAMLConfig(config_path, resume=checkpoint_path)
-        if 'HGNetv2' in self.cfg.yaml_cfg:
-            self.cfg.yaml_cfg['HGNetv2']['pretrained'] = False
+        if "HGNetv2" in self.cfg.yaml_cfg:
+            self.cfg.yaml_cfg["HGNetv2"]["pretrained"] = False
 
         checkpoint = torch.load(checkpoint_path, map_location="cpu")
         state = checkpoint["ema"]["module"] if "ema" in checkpoint else checkpoint["model"]
@@ -118,19 +118,15 @@ class DEIM(sly.nn.inference.ObjectDetection):
 
     def _load_onnx(self, onnx_path: str, device: str):
         import onnxruntime
-        providers = (
-            ["CUDAExecutionProvider"] if device != "cpu" else ["CPUExecutionProvider"]
-        )
+
+        providers = ["CUDAExecutionProvider"] if device != "cpu" else ["CPUExecutionProvider"]
         if device != "cpu":
-            assert (
-                onnxruntime.get_device() == "GPU"
-            ), "ONNXRuntime is not configured to use GPU"
-        self.onnx_session = onnxruntime.InferenceSession(
-            onnx_path, providers=providers
-        )
+            assert onnxruntime.get_device() == "GPU", "ONNXRuntime is not configured to use GPU"
+        self.onnx_session = onnxruntime.InferenceSession(onnx_path, providers=providers)
 
     def _load_tensorrt(self, engine_path: str, device: str):
         from tools.inference.trt_inf import TRTInference
+
         assert device != "cpu", "TensorRT is not supported on CPU"
         self.engine = TRTInference(engine_path, device)
         self.max_batch_size = 1
@@ -239,9 +235,11 @@ class DEIM(sly.nn.inference.ObjectDetection):
         thres = settings["confidence_threshold"]
         predictions = [self._format_prediction(*args, thres) for args in zip(labels, boxes, scores)]
         return predictions
-    
+
     def _load_transforms(self, yaml_cfg: dict):
-        h, w = yaml_cfg["eval_spatial_size"]
+        # Use default spatial size if eval_spatial_size is not present
+        spatial_size = yaml_cfg.get("eval_spatial_size", [640, 640])
+        h, w = spatial_size
         self.input_size = [w, h]
         self.transforms = T.Compose(
             [
@@ -273,12 +271,13 @@ class DEIM(sly.nn.inference.ObjectDetection):
                 sly.fs.silent_remove(engine_path)
 
     def _clear_global_config(self):
-        from collections import defaultdict
-        import engine.core.workspace
-        import sys
         import importlib
-        
+        import sys
+        from collections import defaultdict
+
+        import engine.core.workspace
+
         for module_name in list(sys.modules.keys()):
-            if module_name.startswith('engine.'):
+            if module_name.startswith("engine."):
                 importlib.reload(sys.modules[module_name])
         engine.core.workspace.GLOBAL_CONFIG = defaultdict(dict)
