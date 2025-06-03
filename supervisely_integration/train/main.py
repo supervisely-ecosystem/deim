@@ -1,8 +1,8 @@
 import os
-import torch
 import shutil
 from multiprocessing import cpu_count
 
+import torch
 import yaml
 
 import supervisely as sly
@@ -149,5 +149,6 @@ def _set_input_size_dataloaders(custom_config: dict, size: list):
             if op["type"] == "Resize":
                 ops[i]["size"] = list(size)
                 break
-    custom_config["train_dataloader"]["collate_fn"]["base_size"] = list(size)
-        
+    # custom_config["train_dataloader"]["collate_fn"]["base_size"] = list(size)
+    # Set base_size as the maximum dimension (typically width and height are the same)
+    custom_config["train_dataloader"]["collate_fn"]["base_size"] = max(size)
