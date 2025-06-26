@@ -25,6 +25,8 @@
 		"type": "Apache-2.0"
 	},
 	"instance_version": "6.12.34",
-	"models_json_path": "supervisely_integration/models.json",
-	"inference_settings_path": "supervisely_integration/serve/inference_settings.yaml"
+	"files": {
+		"models": "supervisely_integration/models.json",
+		"inference_settings": "supervisely_integration/serve/inference_settings.yaml"
+	}
 }
