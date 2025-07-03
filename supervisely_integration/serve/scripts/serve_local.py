@@ -1,8 +1,8 @@
 import os
 
+import supervisely as sly
 from dotenv import load_dotenv
 
-import supervisely as sly
 from supervisely_integration.serve.deim import DEIM
 
 if sly.is_development():
@@ -30,7 +30,7 @@ api = sly.Api.from_env()
 #   -v ".:/app" \
 #   -w /app \
 #   -p 8000:8000 \
-#   supervisely/deim:1.0.2 \
+#   supervisely/deim:1.0.3 \
 #   python3 supervisely_integration/serve/main.py deploy
 
 

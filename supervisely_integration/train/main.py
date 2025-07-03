@@ -2,14 +2,14 @@ import os
 import shutil
 from multiprocessing import cpu_count
 
+import supervisely as sly
 import torch
 import yaml
-
-import supervisely as sly
-from engine.core import YAMLConfig
-from engine.solver import DetSolver
 from supervisely.nn import ModelSource, RuntimeType
 from supervisely.nn.training.train_app import TrainApp
+
+from engine.core import YAMLConfig
+from engine.solver import DetSolver
 from supervisely_integration.export import export_onnx, export_tensorrt
 from supervisely_integration.serve.deim import DEIM
 
@@ -105,7 +105,7 @@ def prepare_config(train_ann_path: str, val_ann_path: str):
 
     custom_config = train.hyperparameters
     custom_config["__include__"] = [config]
-    custom_config["remap_mscoco_category"] = False
+    custom_config["remap_mscoco_category"] = True
     custom_config["num_classes"] = train.num_classes
     custom_config["print_freq"] = 50
 
