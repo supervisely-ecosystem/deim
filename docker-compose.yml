@@ -1,6 +1,6 @@
 services:
   rtdetrv2:
-    image: supervisely/deim:1.0.3
+    image: supervisely/deim:1.0.4
     shm_size: 1g
     runtime: nvidia
     env_file:

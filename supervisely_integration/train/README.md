@@ -1,6 +1,6 @@
 <div align="center" markdown>
 
-<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/poster_deim_train.png"/>  
+<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/poster_deim_train.png"/>
 
 # Train DEIM
 
@@ -27,24 +27,26 @@ This app allows you to train models using DEIM checkpoints from D-FINE and RT-DE
 ## Model Zoo
 
 ### DEIM-D-FINE
-      | Model | Dataset  | AP<sup>D-FINE</sup> | AP<sup>DEIM</sup> | #Params | Latency |                       GFLOPs                        |                                            config                                             | checkpoint
-------|:-----:|:--------:|:-------------------:|:-----------------:|:-------:|:-------:|:---------------------------------------------------:|:---------------------------------------------------------------------------------------------:|:---------:
-**N** | COCO  | **42.8** |      **43.0**       |        4M         | 2.12ms  |    7    | [yml](./configs/deim_dfine/deim_hgnetv2_n_coco.yml) |  [ckpt](https://drive.google.com/file/d/1ZPEhiU9nhW4M5jLnYOFwTSLQC1Ugf62e/view?usp=sharing)   |      
-**S** | COCO  | **48.7** |      **49.0**       |        10M        | 3.49ms  |   25    | [yml](./configs/deim_dfine/deim_hgnetv2_s_coco.yml) | [ckpt](https://drive.google.com/file/d/1tB8gVJNrfb6dhFvoHJECKOF5VpkthhfC/view?usp=drive_link) |      
-**M** | COCO  | **52.3** |      **52.7**       |        19M        | 5.62ms  |   57    | [yml](./configs/deim_dfine/deim_hgnetv2_m_coco.yml) | [ckpt](https://drive.google.com/file/d/18Lj2a6UN6k_n_UzqnJyiaiLGpDzQQit8/view?usp=drive_link) |      
-**L** | COCO  | **54.0** |      **54.7**       |        31M        | 8.07ms  |   91    | [yml](./configs/deim_dfine/deim_hgnetv2_l_coco.yml) | [ckpt](https://drive.google.com/file/d/1PIRf02XkrA2xAD3wEiKE2FaamZgSGTAr/view?usp=drive_link) |      
-**X** | COCO  | **55.8** |      **56.5**       |        62M        | 12.89ms |   202   | [yml](./configs/deim_dfine/deim_hgnetv2_x_coco.yml) | [ckpt](https://drive.google.com/file/d/1dPtbgtGgq1Oa7k_LgH1GXPelg1IVeu0j/view?usp=drive_link) |      
 
+      | Model | Dataset  | AP<sup>D-FINE</sup> | AP<sup>DEIM</sup> | #Params | Latency |                       GFLOPs                        |                                            config                                             | checkpoint
+
+------|:-----:|:--------:|:-------------------:|:-----------------:|:-------:|:-------:|:---------------------------------------------------:|:---------------------------------------------------------------------------------------------:|:---------:
+**N** | COCO | **42.8** | **43.0** | 4M | 2.12ms | 7 | [yml](./configs/deim_dfine/deim_hgnetv2_n_coco.yml) | [ckpt](https://drive.google.com/file/d/1ZPEhiU9nhW4M5jLnYOFwTSLQC1Ugf62e/view?usp=sharing) |  
+**S** | COCO | **48.7** | **49.0** | 10M | 3.49ms | 25 | [yml](./configs/deim_dfine/deim_hgnetv2_s_coco.yml) | [ckpt](https://drive.google.com/file/d/1tB8gVJNrfb6dhFvoHJECKOF5VpkthhfC/view?usp=drive_link) |  
+**M** | COCO | **52.3** | **52.7** | 19M | 5.62ms | 57 | [yml](./configs/deim_dfine/deim_hgnetv2_m_coco.yml) | [ckpt](https://drive.google.com/file/d/18Lj2a6UN6k_n_UzqnJyiaiLGpDzQQit8/view?usp=drive_link) |  
+**L** | COCO | **54.0** | **54.7** | 31M | 8.07ms | 91 | [yml](./configs/deim_dfine/deim_hgnetv2_l_coco.yml) | [ckpt](https://drive.google.com/file/d/1PIRf02XkrA2xAD3wEiKE2FaamZgSGTAr/view?usp=drive_link) |  
+**X** | COCO | **55.8** | **56.5** | 62M | 12.89ms | 202 | [yml](./configs/deim_dfine/deim_hgnetv2_x_coco.yml) | [ckpt](https://drive.google.com/file/d/1dPtbgtGgq1Oa7k_LgH1GXPelg1IVeu0j/view?usp=drive_link) |
 
 ### DEIM-RT-DETRv2
-       | Model | Dataset  | AP<sup>RT-DETRv2</sup> | AP<sup>DEIM</sup> | #Params | Latency |                          GFLOPs                          |                                            config                                             | checkpoint
--------|:-----:|:--------:|:----------------------:|:-----------------:|:-------:|:-------:|:--------------------------------------------------------:|:---------------------------------------------------------------------------------------------:|:---------:
-**S**  | COCO  | **47.9** |        **49.0**        |        20M        | 4.59ms  |   60    | [yml](./configs/deim_rtdetrv2/deim_r18vd_120e_coco.yml)  | [ckpt](https://drive.google.com/file/d/153_JKff6EpFgiLKaqkJsoDcLal_0ux_F/view?usp=drive_link) |      
-**M**  | COCO  | **49.9** |        **50.9**        |        31M        | 6.40ms  |   92    | [yml](./configs/deim_rtdetrv2/deim_r34vd_120e_coco.yml)  | [ckpt](https://drive.google.com/file/d/1O9RjZF6kdFWGv1Etn1Toml4r-YfdMDMM/view?usp=drive_link) |      
-**M*** | COCO  | **51.9** |        **53.2**        |        33M        | 6.90ms  |   100   | [yml](./configs/deim_rtdetrv2/deim_r50vd_m_60e_coco.yml) | [ckpt](https://drive.google.com/file/d/10dLuqdBZ6H5ip9BbBiE6S7ZcmHkRbD0E/view?usp=drive_link) |      
-**L**  | COCO  | **53.4** |        **54.3**        |        42M        | 9.15ms  |   136   |  [yml](./configs/deim_rtdetrv2/deim_r50vd_60e_coco.yml)  | [ckpt](https://drive.google.com/file/d/1mWknAXD5JYknUQ94WCEvPfXz13jcNOTI/view?usp=drive_link) |      
-**X**  | COCO  | **54.3** |        **55.5**        |        76M        | 13.66ms |   259   | [yml](./configs/deim_rtdetrv2/deim_r101vd_60e_coco.yml)  | [ckpt](https://drive.google.com/file/d/1BIevZijOcBO17llTyDX32F_pYppBfnzu/view?usp=drive_link) |      
 
+       | Model | Dataset  | AP<sup>RT-DETRv2</sup> | AP<sup>DEIM</sup> | #Params | Latency |                          GFLOPs                          |                                            config                                             | checkpoint
+
+-------|:-----:|:--------:|:----------------------:|:-----------------:|:-------:|:-------:|:--------------------------------------------------------:|:---------------------------------------------------------------------------------------------:|:---------:
+**S** | COCO | **47.9** | **49.0** | 20M | 4.59ms | 60 | [yml](./configs/deim_rtdetrv2/deim_r18vd_120e_coco.yml) | [ckpt](https://drive.google.com/file/d/153_JKff6EpFgiLKaqkJsoDcLal_0ux_F/view?usp=drive_link) |  
+**M** | COCO | **49.9** | **50.9** | 31M | 6.40ms | 92 | [yml](./configs/deim_rtdetrv2/deim_r34vd_120e_coco.yml) | [ckpt](https://drive.google.com/file/d/1O9RjZF6kdFWGv1Etn1Toml4r-YfdMDMM/view?usp=drive_link) |  
+**M\*** | COCO | **51.9** | **53.2** | 33M | 6.90ms | 100 | [yml](./configs/deim_rtdetrv2/deim_r50vd_m_60e_coco.yml) | [ckpt](https://drive.google.com/file/d/10dLuqdBZ6H5ip9BbBiE6S7ZcmHkRbD0E/view?usp=drive_link) |  
+**L** | COCO | **53.4** | **54.3** | 42M | 9.15ms | 136 | [yml](./configs/deim_rtdetrv2/deim_r50vd_60e_coco.yml) | [ckpt](https://drive.google.com/file/d/1mWknAXD5JYknUQ94WCEvPfXz13jcNOTI/view?usp=drive_link) |  
+**X** | COCO | **54.3** | **55.5** | 76M | 13.66ms | 259 | [yml](./configs/deim_rtdetrv2/deim_r101vd_60e_coco.yml) | [ckpt](https://drive.google.com/file/d/1BIevZijOcBO17llTyDX32F_pYppBfnzu/view?usp=drive_link) |
 
 # How to Run
 
@@ -52,31 +54,31 @@ This app allows you to train models using DEIM checkpoints from D-FINE and RT-DE
 
 **Step 1.** Select if you want to use cached project or redownload it
 
-<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-1.png" width="100%" style='padding-top: 10px'>  
+<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-1.png" width="100%" style='padding-top: 10px'>
 
 **Step 2.** Select train / val split
 
-<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-2.png" width="100%" style='padding-top: 10px'>  
+<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-2.png" width="100%" style='padding-top: 10px'>
 
 **Step 3.** Select the classes you want to train on
 
-<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-3.png" width="100%" style='padding-top: 10px'>  
+<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-3.png" width="100%" style='padding-top: 10px'>
 
 **Step 4.** Select the model you want to train
 
-<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-4.png" width="100%" style='padding-top: 10px'>  
+<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-4.png" width="100%" style='padding-top: 10px'>
 
 **Step 5.** Configure hyperaparameters and select whether you want to use model evaluation and convert checkpoints to ONNX and TensorRT
 
-<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-5.png" width="100%" style='padding-top: 10px'>  
+<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-5.png" width="100%" style='padding-top: 10px'>
 
 **Step 6.** Enter experiment name and start training
 
-<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-6.png" width="100%" style='padding-top: 10px'>  
+<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-6.png" width="100%" style='padding-top: 10px'>
 
 **Step 7.** Monitor training progress
 
-<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-7.png" width="100%" style='padding-top: 10px'>  
+<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-7.png" width="100%" style='padding-top: 10px'>
 
 # Obtain saved checkpoints
 
@@ -84,7 +86,7 @@ All trained checkpoints that are generated through the training process are stor
 
 You will see a folder thumbnail with a link to your saved checkpoints by the end of training process.
 
-<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-8.png" width="100%" style='padding-top: 10px'>  
+<img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/train-step-8.png" width="100%" style='padding-top: 10px'>
 
 # How to use your checkpoints outside Supervisely Platform
 
@@ -113,7 +115,7 @@ pip install -r requirements.txt
 We provide a pre-built docker image with all dependencies installed [DockerHub](https://hub.docker.com/r/supervisely/deim/tags). The image includes installed packages for ONNXRuntime and TensorRT inference.
 
 ```bash
-docker pull supervisely/deim:1.0.3
+docker pull supervisely/deim:1.0.4
 ```
 
 See our [Dockerfile](https://github.com/supervisely-ecosystem/deim/blob/master/docker/Dockerfile) for more details.
