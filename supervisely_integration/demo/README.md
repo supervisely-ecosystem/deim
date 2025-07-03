@@ -25,7 +25,7 @@ pip install -r requirements.txt
 We provide a pre-built docker image with all dependencies installed [DockerHub](https://hub.docker.com/r/supervisely/deim/tags). The image includes installed packages for ONNXRuntime and TensorRT inference.
 
 ```bash
-docker pull supervisely/deim:1.0.2
+docker pull supervisely/deim:1.0.3
 ```
 
 See our [Dockerfile](https://github.com/supervisely-ecosystem/deim/blob/master/docker/Dockerfile) for more details.
