@@ -18,4 +18,3 @@ jobs:
       SERVER_ADDRESS: ${{ vars.SUPERVISELY_PROD_SERVER_ADDRESS }}
     secrets:
       API_TOKEN: ${{ secrets.SUPERVISELY_PROD_API_TOKEN }}
-
