@@ -22,17 +22,27 @@ api = sly.Api.from_env()
 # 2. Run with docker run       #
 ################################
 # Run the following command in the terminal:
+# Pretrained
+# docker run \
+#   --shm-size=1g \
+#   --runtime=nvidia \
+#   --env PYTHONPATH=/app \
+#   -p 8000:8000 \
+#   supervisely/deim:dev-deploy \
+#   deploy
+#   --model "DEIM D-FINE-S"
+
+# Custom
 # docker run \
 #   --shm-size=1g \
 #   --runtime=nvidia \
 #   --env-file ~/supervisely.env \
 #   --env PYTHONPATH=/app \
-#   -v ".:/app" \
-#   -w /app \
+#   -v "./47676_DEIM:/model" \
 #   -p 8000:8000 \
-#   supervisely/deim:1.0.5 \
-#   python3 supervisely_integration/serve/main.py deploy
-
+#   supervisely/deim:dev-deploy \
+#   deploy \
+#   --model "/model/checkpoints/best.pth"
 
 ################################
 # 3. Run locally               #
