@@ -4,7 +4,7 @@ PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
 docker build --no-cache \
   -f "${SCRIPT_DIR}/Dockerfile.deploy" \
-  -t supervisely/deim:dev-deploy \
+  -t supervisely/deim:1.0.6-deploy \
   "$PROJECT_ROOT"
 
-docker push supervisely/deim:dev-deploy
+docker push supervisely/deim:1.0.6-deploy

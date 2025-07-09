@@ -52,7 +52,7 @@ RUN pip install --no-cache-dir \
     faster-coco-eval==1.6.5 \
     imgaug==0.4.0
 
-RUN pip install --no-cache-dir supervisely[training]==6.73.393
-RUN pip install --no-cache-dir supervisely[model-benchmark]==6.73.393
+RUN pip install --no-cache-dir supervisely[training]==6.73.395
+RUN pip install --no-cache-dir supervisely[model-benchmark]==6.73.395
 
-LABEL python_sdk_version=6.73.393
+LABEL python_sdk_version=6.73.395
