@@ -16,7 +16,7 @@
   "poster": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/poster_deim_train.png",
   "description": "Train DEIM model on your data",
   "docker_image": "supervisely/deim:1.0.6",
-  "instance_version": "6.13.1",
+  "instance_version": "6.13.8",
   "task_location": "workspace_tasks",
   "need_gpu": true,
   "gpu": "required",
