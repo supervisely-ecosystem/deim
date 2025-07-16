@@ -26,8 +26,8 @@
   },
   "instance_version": "6.13.8",
   "files": {
-	"models": "supervisely_integration/models.json",
-	"inference_settings": "supervisely_integration/serve/inference_settings.yaml",
-	"hyperparams": "supervisely_integration/train/hyperparameters.yaml"
+    "models": "supervisely_integration/models.json",
+    "inference_settings": "supervisely_integration/serve/inference_settings.yaml",
+    "hyperparams": "supervisely_integration/train/hyperparameters.yaml"
   }
 }
