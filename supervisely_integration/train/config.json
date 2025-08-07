@@ -32,5 +32,14 @@
     "models": "supervisely_integration/models.json",
     "inference_settings": "supervisely_integration/serve/inference_settings.yaml",
     "hyperparams": "supervisely_integration/train/hyperparameters.yaml"
+  },
+  "framework": {
+    "name": "DEIM",
+    "tags": ["SOTA", "real-time"],
+    "export": ["ONNX", "TensorRT"],
+    "conference": "CVPR 2025",
+    "released": "2025",
+    "description": "Efficient training framework designed to accelerate convergence in real-time object detection with Transformer-based architectures (DETR)",
+    "github": "https://github.com/Intellindust-AI-Lab/DEIM"
   }
 }
