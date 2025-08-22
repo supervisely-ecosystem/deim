@@ -39,7 +39,7 @@
     "export": ["ONNX", "TensorRT"],
     "conference": "CVPR 2025",
     "released": "2025",
-    "description": "Efficient training framework designed to accelerate convergence in real-time object detection with Transformer-based architectures (DETR)",
+    "description": "SOTA real-time object detection model based on DETR architecture. The framework is designed to accelerate training convergence and improve detection accuracy.",
     "github": "https://github.com/Intellindust-AI-Lab/DEIM"
   }
 }
