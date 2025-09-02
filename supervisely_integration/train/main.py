@@ -152,3 +152,7 @@ def _set_input_size_dataloaders(custom_config: dict, size: list):
     # custom_config["train_dataloader"]["collate_fn"]["base_size"] = list(size)
     # Set base_size as the maximum dimension (typically width and height are the same)
     custom_config["train_dataloader"]["collate_fn"]["base_size"] = max(size)
+
+
+if train.auto_start:
+    train.start_in_thread()
