@@ -21,7 +21,8 @@ train = TrainApp(
     f"{base_path}/app_options.yaml",
 )
 
-train.register_inference_class(DEIM)
+inference_settings = "supervisely_integration/serve/inference_settings.yaml"
+train.register_inference_class(DEIM, inference_settings)
 
 
 @train.start
@@ -152,3 +153,7 @@ def _set_input_size_dataloaders(custom_config: dict, size: list):
     # custom_config["train_dataloader"]["collate_fn"]["base_size"] = list(size)
     # Set base_size as the maximum dimension (typically width and height are the same)
     custom_config["train_dataloader"]["collate_fn"]["base_size"] = max(size)
+
+
+if train.auto_start:
+    train.start_in_thread()
