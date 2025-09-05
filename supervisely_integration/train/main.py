@@ -21,7 +21,8 @@ train = TrainApp(
     f"{base_path}/app_options.yaml",
 )
 
-train.register_inference_class(DEIM)
+inference_settings = "supervisely_integration/serve/inference_settings.yaml"
+train.register_inference_class(DEIM, inference_settings)
 
 
 @train.start
