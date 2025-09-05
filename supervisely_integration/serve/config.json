@@ -24,7 +24,7 @@
   "license": {
     "type": "Apache-2.0"
   },
-  "instance_version": "6.15.0",
+  "instance_version": "6.15.2",
   "files": {
     "models": "supervisely_integration/models.json",
     "inference_settings": "supervisely_integration/serve/inference_settings.yaml",
