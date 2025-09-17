@@ -32,77 +32,37 @@ class DEIM(sly.nn.inference.ObjectDetection):
         self, model_files: dict, model_info: dict, model_source: str, device: str, runtime: str
     ):
         self._clear_global_config()
-        checkpoint_path = model_files["checkpoint"]
         if model_source == ModelSource.CUSTOM:
-            config_path = model_files["config"]
-            self._remove_include(config_path)
+            checkpoint_path, config_path = self._prepare_custom_model(model_files)
         else:
-            model_name = model_info["meta"]["model_name"]
+            checkpoint_path, config_path = self._prepare_pretrained_model(model_files, model_info)
 
-            if model_name.startswith("DEIM D-FINE"):
-                CONFIG_DIR = "configs/deim_dfine"
-            else:
-                CONFIG_DIR = "configs/deim_rtdetrv2"
-            config_path = f'{CONFIG_DIR}/{get_file_name_with_ext(model_files["config"])}'
-            self.classes = list(mscoco_category2name.values())
-            obj_classes = [sly.ObjClass(name, sly.Rectangle) for name in self.classes]
-            tag_metas = [sly.TagMeta("confidence", sly.TagValueType.ANY_NUMBER)]
-            self._model_meta = sly.ProjectMeta(obj_classes=obj_classes, tag_metas=tag_metas)
-            self.checkpoint_info = CheckpointInfo(
-                checkpoint_name=os.path.basename(checkpoint_path),
-                model_name=model_info["meta"]["model_name"],
-                architecture=self.FRAMEWORK_NAME,
-                checkpoint_url=model_info["meta"]["model_files"]["checkpoint"],
-                model_source=model_source,
-            )
-        with open(config_path, "r") as f:
-            yaml_cfg = yaml.safe_load(f)
-        self._load_transforms(yaml_cfg)
+        self._load_transforms(config_path)
         if runtime == RuntimeType.PYTORCH:
             self._load_pytorch(checkpoint_path, config_path, device)
         elif runtime == RuntimeType.ONNXRUNTIME:
-            self._load_runtime(checkpoint_path, config_path, "onnx", device)
+            self._load_onnx(checkpoint_path, device)
         elif runtime == RuntimeType.TENSORRT:
-            self._load_runtime(checkpoint_path, config_path, "engine", device)
+            self._load_tensorrt(checkpoint_path, device)
 
-    def _load_runtime(self, checkpoint_path: str, config_path: str, format: str, device: str):
-        def export_model():
-            sly.logger.info(f"Exporting model to '{format}' format...")
-            if self.gui is not None:
-                bar = self.gui.download_progress(
-                    message=f"Exporting model to '{format}' format...", total=1
-                )
-                self.gui.download_progress.show()
-            if format == "onnx":
-                self._remove_existing_checkpoints(checkpoint_path, format)
-                onnx_model_path = export_onnx(checkpoint_path, config_path, self.model_dir)
-            elif format == "engine":
-                self._remove_existing_checkpoints(checkpoint_path, format)
-                onnx_model_path = export_onnx(checkpoint_path, config_path, self.model_dir)
-                engine_path = export_tensorrt(onnx_model_path, self.model_dir, fp16=True)
-            if self.gui is not None:
-                bar.update(1)
-                self.gui.download_progress.hide()
-            if format == "onnx":
-                return onnx_model_path
-            elif format == "engine":
-                return engine_path
+    def predict_benchmark(self, images_np: List[np.ndarray], settings: dict = None):
+        if self.runtime == RuntimeType.PYTORCH:
+            return self._predict_pytorch(images_np, settings)
+        elif self.runtime == RuntimeType.ONNXRUNTIME:
+            return self._predict_onnx(images_np, settings)
+        elif self.runtime == RuntimeType.TENSORRT:
+            return self._predict_tensorrt(images_np, settings)
 
-        file_name = sly.fs.get_file_name(checkpoint_path)
-        file_ext = sly.fs.get_file_ext(checkpoint_path)
-        if file_name == "best" and file_ext == ".pth":
-            exported_checkpoint_path = export_model()
-        elif file_ext == ".pth":
-            exported_checkpoint_path = checkpoint_path.replace(".pth", f".{format}")
-            if not os.path.exists(exported_checkpoint_path):
-                exported_checkpoint_path = export_model()
-        else:
-            exported_checkpoint_path = checkpoint_path
+    # Loaders ------------------ #
+    def _load_transforms(self, config_path: str):
+        with open(config_path, "r") as f:
+            yaml_cfg = yaml.safe_load(f)
 
-        if format == "onnx":
-            self._load_onnx(exported_checkpoint_path, device)
-        elif format == "engine":
-            self._load_tensorrt(exported_checkpoint_path, device)
+        # Use default spatial size if eval_spatial_size is not present
+        spatial_size = yaml_cfg.get("eval_spatial_size", [640, 640])
+        h, w = spatial_size
+        self.input_size = [w, h]
+        self.transforms = T.Compose([T.Resize((h, w)), T.ToTensor()])
 
     def _load_pytorch(self, checkpoint_path: str, config_path: str, device: str):
         self.cfg = YAMLConfig(config_path, resume=checkpoint_path)
@@ -131,14 +91,9 @@ class DEIM(sly.nn.inference.ObjectDetection):
         self.engine = TRTInference(engine_path, device)
         self.max_batch_size = 1
 
-    def predict_benchmark(self, images_np: List[np.ndarray], settings: dict = None):
-        if self.runtime == RuntimeType.PYTORCH:
-            return self._predict_pytorch(images_np, settings)
-        elif self.runtime == RuntimeType.ONNXRUNTIME:
-            return self._predict_onnx(images_np, settings)
-        elif self.runtime == RuntimeType.TENSORRT:
-            return self._predict_tensorrt(images_np, settings)
+    # -------------------------- #
 
+    # Predictions -------------- #
     @torch.no_grad()
     def _predict_pytorch(
         self, images_np: List[np.ndarray], settings: dict = None
@@ -236,17 +191,58 @@ class DEIM(sly.nn.inference.ObjectDetection):
         predictions = [self._format_prediction(*args, thres) for args in zip(labels, boxes, scores)]
         return predictions
 
-    def _load_transforms(self, yaml_cfg: dict):
-        # Use default spatial size if eval_spatial_size is not present
-        spatial_size = yaml_cfg.get("eval_spatial_size", [640, 640])
-        h, w = spatial_size
-        self.input_size = [w, h]
-        self.transforms = T.Compose(
-            [
-                T.Resize((h, w)),
-                T.ToTensor(),
-            ]
+    # -------------------------- #
+
+    # Converters --------------- #
+    def convert_onnx(self, deploy_params: dict) -> str:
+        checkpoint_path = deploy_params["model_files"]["checkpoint"]
+        config_path = deploy_params["model_files"]["config"]
+        output_dir = self.model_dir
+
+        self._remove_existing_checkpoints(checkpoint_path, "onnx")
+        checkpoint_path = export_onnx(checkpoint_path, config_path, output_dir)
+        return checkpoint_path
+
+    def convert_tensorrt(self, deploy_params: dict) -> str:
+        checkpoint_path = deploy_params["model_files"]["checkpoint"]
+        config_path = deploy_params["model_files"]["config"]
+        output_dir = self.model_dir
+
+        self._remove_existing_checkpoints(checkpoint_path, "onnx")
+        checkpoint_path = export_onnx(checkpoint_path, config_path, output_dir)
+        self._remove_existing_checkpoints(checkpoint_path, "engine")
+        checkpoint_path = export_tensorrt(checkpoint_path, output_dir, fp16=True)
+        return checkpoint_path
+
+    # -------------------------- #
+
+    # Utils -------------------- #
+    def _prepare_custom_model(self, model_files: dict):
+        checkpoint_path = model_files["checkpoint"]
+        config_path = model_files["config"]
+        self._remove_include(config_path)
+        return checkpoint_path, config_path
+
+    def _prepare_pretrained_model(self, model_files: dict, model_info: dict):
+        checkpoint_path = model_files["checkpoint"]
+        model_name = model_info["meta"]["model_name"]
+        if model_name.startswith("DEIM D-FINE"):
+            CONFIG_DIR = "configs/deim_dfine"
+        else:
+            CONFIG_DIR = "configs/deim_rtdetrv2"
+        config_path = f'{CONFIG_DIR}/{get_file_name_with_ext(model_files["config"])}'
+        self.classes = list(mscoco_category2name.values())
+        obj_classes = [sly.ObjClass(name, sly.Rectangle) for name in self.classes]
+        tag_metas = [sly.TagMeta("confidence", sly.TagValueType.ANY_NUMBER)]
+        self._model_meta = sly.ProjectMeta(obj_classes=obj_classes, tag_metas=tag_metas)
+        self.checkpoint_info = CheckpointInfo(
+            checkpoint_name=os.path.basename(checkpoint_path),
+            model_name=model_info["meta"]["model_name"],
+            architecture=self.FRAMEWORK_NAME,
+            checkpoint_url=model_info["meta"]["model_files"]["checkpoint"],
+            model_source=ModelSource.PRETRAINED,
         )
+        return checkpoint_path, config_path
 
     def _remove_include(self, config_path: str):
         # del "__include__" and rewrite the config
@@ -281,3 +277,5 @@ class DEIM(sly.nn.inference.ObjectDetection):
             if module_name.startswith("engine."):
                 importlib.reload(sys.modules[module_name])
         engine.core.workspace.GLOBAL_CONFIG = defaultdict(dict)
+
+    # -------------------------- #
