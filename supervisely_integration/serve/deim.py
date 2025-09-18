@@ -195,23 +195,22 @@ class DEIM(sly.nn.inference.ObjectDetection):
 
     # Converters --------------- #
     def convert_onnx(self, deploy_params: dict) -> str:
-        checkpoint_path = deploy_params["model_files"]["checkpoint"]
-        config_path = deploy_params["model_files"]["config"]
-        output_dir = self.model_dir
-
-        self._remove_existing_checkpoints(checkpoint_path, "onnx")
-        checkpoint_path = export_onnx(checkpoint_path, config_path, output_dir)
+        model_files = deploy_params["model_files"]
+        model_source = deploy_params["model_source"]
+        model_info = deploy_params["model_info"]
+        checkpoint_path = model_files["checkpoint"]
+        config_path = self._get_config_path(model_source, model_info, model_files)
+        checkpoint_path = export_onnx(checkpoint_path, config_path, self.model_dir)
         return checkpoint_path
 
     def convert_tensorrt(self, deploy_params: dict) -> str:
-        checkpoint_path = deploy_params["model_files"]["checkpoint"]
-        config_path = deploy_params["model_files"]["config"]
-        output_dir = self.model_dir
-
-        self._remove_existing_checkpoints(checkpoint_path, "onnx")
-        checkpoint_path = export_onnx(checkpoint_path, config_path, output_dir)
-        self._remove_existing_checkpoints(checkpoint_path, "engine")
-        checkpoint_path = export_tensorrt(checkpoint_path, output_dir, fp16=True)
+        model_files = deploy_params["model_files"]
+        model_source = deploy_params["model_source"]
+        model_info = deploy_params["model_info"]
+        checkpoint_path = model_files["checkpoint"]
+        config_path = self._get_config_path(model_source, model_info, model_files)
+        checkpoint_path = export_onnx(checkpoint_path, config_path, self.model_dir)
+        checkpoint_path = export_tensorrt(checkpoint_path, self.model_dir, fp16=True)
         return checkpoint_path
 
     # -------------------------- #
@@ -243,6 +242,18 @@ class DEIM(sly.nn.inference.ObjectDetection):
             model_source=ModelSource.PRETRAINED,
         )
         return checkpoint_path, config_path
+
+    def _get_config_path(self, model_source: str, model_info: dict, model_files: dict):
+        if model_source == ModelSource.PRETRAINED:
+            model_name = model_info["meta"]["model_name"]
+            if model_name.startswith("DEIM D-FINE"):
+                CONFIG_DIR = "configs/deim_dfine"
+            else:
+                CONFIG_DIR = "configs/deim_rtdetrv2"
+            config_path = f'{CONFIG_DIR}/{get_file_name_with_ext(model_files["config"])}'
+        else:
+            config_path = model_files["config"]
+        return config_path
 
     def _remove_include(self, config_path: str):
         # del "__include__" and rewrite the config
