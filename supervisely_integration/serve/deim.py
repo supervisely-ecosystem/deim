@@ -194,7 +194,7 @@ class DEIM(sly.nn.inference.ObjectDetection):
     # -------------------------- #
 
     # Converters --------------- #
-    def convert_onnx(self, deploy_params: dict) -> str:
+    def export_onnx(self, deploy_params: dict) -> str:
         model_files = deploy_params["model_files"]
         model_source = deploy_params["model_source"]
         model_info = deploy_params["model_info"]
@@ -203,7 +203,7 @@ class DEIM(sly.nn.inference.ObjectDetection):
         checkpoint_path = export_onnx(checkpoint_path, config_path, self.model_dir)
         return checkpoint_path
 
-    def convert_tensorrt(self, deploy_params: dict) -> str:
+    def export_tensorrt(self, deploy_params: dict) -> str:
         model_files = deploy_params["model_files"]
         model_source = deploy_params["model_source"]
         model_info = deploy_params["model_info"]
