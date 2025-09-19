@@ -1,2 +1,2 @@
-docker build -t supervisely/deim:dev . && \
-docker push supervisely/deim:dev
+docker build -t supervisely/deim:1.0.15 . && \
+docker push supervisely/deim:1.0.15
