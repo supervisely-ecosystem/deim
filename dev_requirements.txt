@@ -1,14 +1,16 @@
 # git+https://github.com/supervisely/supervisely.git@some-test-branch
 
-supervisely[training]==6.73.436
-supervisely[model-benchmark]==6.73.436
-torch==2.6.0
-torchvision==0.21.0
-onnx==1.14.0
-onnxruntime-gpu==1.15.1
-pycocotools==2.0.8
-PyYAML==6.0.2
+supervisely[training]==6.73.443
+supervisely[tracking]==6.73.443
+supervisely[model-benchmark]==6.73.443
+
+torch==2.7.1
+torchvision==0.22.1
+onnx==1.16.1
+onnxruntime-gpu==1.19.2
+tensorrt-cu12==10.13.2.6
 tensorboard==2.19.0
+
 transformers==4.50.3
 calflops==0.3.2
 scipy==1.15.2

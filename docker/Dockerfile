@@ -1,9 +1,10 @@
-FROM nvidia/cuda:12.2.2-cudnn8-runtime-ubuntu22.04
+FROM nvidia/cuda:12.8.1-cudnn-runtime-ubuntu22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PATH="/usr/src/tensorrt/bin:${PATH}"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \    
     python3-dev \
     python3-pip \
     git \
@@ -15,11 +16,29 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libmagic-dev \
     libexiv2-dev
 
-RUN apt-get update && apt-get install -y --no-install-recommends tensorrt
-
 RUN ln -s /usr/bin/python3 /usr/bin/python \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+# TensorRT Installation
+RUN TRT_VERSION="10.9.0.34-1+cuda12.8" && apt-get update && apt-get install -y \
+    libnvinfer-dev=${TRT_VERSION} \
+    libnvinfer-dispatch-dev=${TRT_VERSION} \
+    libnvinfer-dispatch10=${TRT_VERSION} \
+    libnvinfer-headers-dev=${TRT_VERSION} \
+    libnvinfer-headers-plugin-dev=${TRT_VERSION} \
+    libnvinfer-lean-dev=${TRT_VERSION} \
+    libnvinfer-lean10=${TRT_VERSION} \
+    libnvinfer-plugin-dev=${TRT_VERSION} \
+    libnvinfer-plugin10=${TRT_VERSION} \
+    libnvinfer-vc-plugin-dev=${TRT_VERSION} \
+    libnvinfer-vc-plugin10=${TRT_VERSION} \
+    libnvinfer10=${TRT_VERSION} \
+    libnvonnxparsers-dev=${TRT_VERSION} \
+    libnvonnxparsers10=${TRT_VERSION} \
+    tensorrt-dev=${TRT_VERSION} \
+    libnvinfer-bin=${TRT_VERSION}
+# --------------------- #
 
 # D-FINE models
 RUN mkdir -p ~/.cache/supervisely/checkpoints && \
@@ -37,22 +56,16 @@ RUN mkdir -p ~/.cache/supervisely/checkpoints && \
     curl -L -o ~/.cache/supervisely/checkpoints/deim_rtdetrv2_r50vd_coco_60e.pth https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_rtdetrv2_r50vd_coco_60e.pth && \
     curl -L -o ~/.cache/supervisely/checkpoints/deim_rtdetrv2_r101vd_coco_60e.pth https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_rtdetrv2_r101vd_coco_60e.pth
 
-RUN pip install --no-cache-dir \
-    setuptools==69.5.1 \
-    torch==2.6.0 \
-    torchvision==0.21.0 \
-    onnx==1.14.0 \
-    onnxruntime-gpu==1.15.1 \
-    pycocotools==2.0.8 \
-    PyYAML==6.0.2 \
-    tensorboard==2.19.0 \
-    transformers==4.50.3 \
-    calflops==0.3.2 \
-    scipy==1.15.2 \
-    faster-coco-eval==1.6.5 \
-    imgaug==0.4.0
+# Install Dependencies
+RUN pip install --no-cache-dir torch==2.7.1 torchvision==0.22.1 --index-url https://download.pytorch.org/whl/cu128
+RUN pip install --no-cache-dir onnx==1.16.1 onnxruntime-gpu==1.19.2
+RUN pip install --no-cache-dir tensorrt-cu12==10.9.0.34
 
-RUN pip install --no-cache-dir supervisely[training]==6.73.436
-RUN pip install --no-cache-dir supervisely[model-benchmark]==6.73.436
+RUN pip install --no-cache-dir setuptools==69.5.1 tensorboard imgaug==0.4.0
+RUN pip install --no-cache-dir transformers==4.50.3 calflops==0.3.2 scipy==1.15.2 faster-coco-eval==1.6.5
 
-LABEL python_sdk_version=6.73.436
+RUN pip install --no-cache-dir supervisely[training]==6.73.443
+RUN pip install --no-cache-dir supervisely[tracking]==6.73.443
+RUN pip install --no-cache-dir supervisely[model-benchmark]==6.73.443
+
+LABEL python_sdk_version=6.73.443

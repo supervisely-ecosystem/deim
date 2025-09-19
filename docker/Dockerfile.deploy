@@ -1,4 +1,4 @@
-FROM supervisely/deim:1.0.13
+FROM supervisely/deim:1.0.15
 
 WORKDIR /app
 COPY . /app
