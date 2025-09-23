@@ -28,7 +28,7 @@ api = sly.Api.from_env()
 #   --runtime=nvidia \
 #   --env PYTHONPATH=/app \
 #   -p 8000:8000 \
-#   supervisely/deim:1.0.15-deploy \
+#   supervisely/deim:1.0.16-deploy \
 #   deploy
 #   --model "DEIM D-FINE-S"
 
@@ -40,7 +40,7 @@ api = sly.Api.from_env()
 #   --env PYTHONPATH=/app \
 #   -v "./47676_DEIM:/model" \
 #   -p 8000:8000 \
-#   supervisely/deim:1.0.15-deploy \
+#   supervisely/deim:1.0.16-deploy \
 #   deploy \
 #   --model "/model/checkpoints/best.pth"
 
