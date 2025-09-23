@@ -28,13 +28,13 @@ def load_deim_model(checkpoint_path: str, config_path: str):
 
 class SingleInputDFINEEmbeddedScaling(nn.Module):
     """D-FINE wrapper with embedded per-channel normalization"""
-    def __init__(self, cfg):
+    def __init__(self, cfg, input_size: list):
         super().__init__()
         self.model = cfg.model.deploy()
         self.postprocessor = cfg.postprocessor.deploy()
                     
         # Fixed target sizes for DeepStream
-        input_size = cfg["val_dataloader"]["dataset"]["transforms"]["ops"]["size"]
+        # Get input size from config - look for Resize operation
         self.register_buffer('orig_target_sizes', torch.tensor([input_size], dtype=torch.int32))
         
         # ImageNet normalization (RGB order)
@@ -135,13 +135,28 @@ def main():
     
     # Load model
     cfg = load_deim_model(args.pth_path, args.config_path)
-    model = SingleInputDFINEEmbeddedScaling(cfg)
+    input_size = [640, 640]  # default fallback
+
+    # Try to get size from eval_spatial_size first
+    if hasattr(cfg, 'yaml_cfg') and 'eval_spatial_size' in cfg.yaml_cfg and cfg.yaml_cfg['eval_spatial_size']:
+        input_size = cfg.yaml_cfg['eval_spatial_size']
+    else:
+        # Look for Resize operation in transforms
+        if hasattr(cfg, 'yaml_cfg'):
+            ops = cfg.yaml_cfg.get("val_dataloader", {}).get("dataset", {}).get("transforms", {}).get("ops", [])
+            for op in ops:
+                if op.get("type") == "Resize" and "size" in op:
+                    input_size = op["size"]
+                    break
+
+    print(f"Using input size: {input_size}")
+    model = SingleInputDFINEEmbeddedScaling(cfg, input_size)
     
     onnx_path = os.path.join(args.output_dir, f"{args.model_name}.onnx")
     engine_path = os.path.join(args.output_dir, f"{args.model_name}.engine")
     
     # Export ONNX
-    input_size = cfg["val_dataloader"]["dataset"]["transforms"]["ops"]["size"]
+    # Get input size from config - look for Resize operation
     export_to_onnx(model, onnx_path, input_size)
     
     # Export TensorRT
