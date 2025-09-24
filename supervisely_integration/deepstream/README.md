@@ -12,6 +12,7 @@ docker build -f supervisely_integration/deepstream/Dockerfile -t deim-deepstream
 ```
 
 ## 3. Prepare your data
+After training your model, you will be able to download the files model.pth, model_config.yml, and model_meta.json from the Supervisely platform in the team files.
 ```
 data/
 ├── input_video.mp4      # your input video
@@ -22,6 +23,9 @@ data/
 ```
 
 ## 4. Run inference
+
+When running the container, you mount your local `data/` directory into the container (`-v $(pwd)/data:/data`) and pass environment variables to specify the input video (`INPUT_VIDEO`), the model directory (`MODEL_DIR`), and the output path (`OUTPUT_FILE`). This way the container can access your video and model files, and save the results back to your local machine.
+
 
 ### Video output (MP4 with bounding boxes):
 ```bash
