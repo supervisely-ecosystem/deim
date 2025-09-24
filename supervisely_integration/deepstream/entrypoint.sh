@@ -53,7 +53,7 @@ echo "  Meta: $MODEL_META"
 cd /workspace/supervisely_integration/deepstream
 
 echo "Step 1: Generating labels.txt from model_meta.json..."
-python3 make_labels_txt.py "$MODEL_META"
+python3 make_labels_file.py "$MODEL_META"
 LABELS_FILE="$(dirname "$MODEL_META")/labels.txt"
 echo "Labels file created: $LABELS_FILE"
 
