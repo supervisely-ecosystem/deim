@@ -61,7 +61,7 @@ osd_sink_pad_buffer_probe (GstPad * pad, GstPadProbeInfo * info,
     }
     
     frame_number++;
-    g_print ("Frame Number = %d Number of objects = %d\n", frame_number, num_rects);
+    // g_print ("Frame Number = %d Number of objects = %d\n", frame_number, num_rects);
     
     return GST_PAD_PROBE_OK;
 }
