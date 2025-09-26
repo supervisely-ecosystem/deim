@@ -1,5 +1,7 @@
 # DEIM DeepStream Docker - Quick Start
 
+This guide will help you set up the environment using our prepared [Dockerfile](https://github.com/supervisely-ecosystem/deim/blob/master/supervisely_integration/deepstream/Dockerfile) and run inference on your video file using a trained DEIM model and NvSORT tracker in DeepStream framework. It assumes you have a trained DEIM model in Supervisely.
+
 ## 1. Clone repository
 ```bash
 git clone https://github.com/supervisely-ecosystem/deim
