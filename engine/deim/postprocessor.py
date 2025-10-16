@@ -57,7 +57,6 @@ class PostProcessor(nn.Module):
         if self.use_focal_loss:
             scores = F.sigmoid(logits)
             scores, index = torch.topk(scores.flatten(1), self.num_top_queries, dim=-1)
-            # TODO for older tensorrt
             # labels = index % self.num_classes
             labels = mod(index, self.num_classes)
             index = index // self.num_classes
@@ -71,11 +70,9 @@ class PostProcessor(nn.Module):
                 labels = torch.gather(labels, dim=1, index=index)
                 boxes = torch.gather(boxes, dim=1, index=index.unsqueeze(-1).tile(1, 1, boxes.shape[-1]))
 
-        # TODO for onnx export
         if self.deploy_mode:
             return labels, boxes, scores
 
-        # TODO
         if self.remap_mscoco_category:
             from ..data.dataset import mscoco_label2category
             labels = torch.tensor([mscoco_label2category[int(x.item())] for x in labels.flatten()])\

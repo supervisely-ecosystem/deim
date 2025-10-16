@@ -31,6 +31,10 @@ class DetSolver(BaseSolver):
         print(model_stats)
         print("-"*42 + "Start training" + "-"*43)
 
+        for i, (name, param) in enumerate(self.model.named_parameters()):
+            if i in [194, 195]:
+                print(f"Index {i}: {name} - requires_grad: {param.requires_grad}")
+
         self.self_lr_scheduler = False
         if args.lrsheduler is not None:
             iter_per_epoch = len(self.train_dataloader)
@@ -40,6 +44,9 @@ class DetSolver(BaseSolver):
             self.self_lr_scheduler = True
         n_parameters = sum([p.numel() for p in self.model.parameters() if p.requires_grad])
         print(f'number of trainable parameters: {n_parameters}')
+
+        n_parameters = sum([p.numel() for p in self.model.parameters() if not p.requires_grad])
+        print(f'number of non-trainable parameters: {n_parameters}')
 
         top1 = 0
         best_stat = {'epoch': -1, }
@@ -103,7 +110,7 @@ class DetSolver(BaseSolver):
             if self.output_dir and epoch < self.train_dataloader.collate_fn.stop_epoch:
                 checkpoint_paths = [self.output_dir / 'last.pth']
                 # extra checkpoint before LR drop and every 100 epochs
-                if args.checkpoint_freq > 0 and (epoch + 1) % args.checkpoint_freq == 0:
+                if (epoch + 1) % args.checkpoint_freq == 0:
                     checkpoint_paths.append(self.output_dir / f'checkpoint{epoch:04}.pth')
                 for checkpoint_path in checkpoint_paths:
                     dist_utils.save_on_master(self.state_dict(), checkpoint_path)
@@ -118,7 +125,6 @@ class DetSolver(BaseSolver):
                 self.device
             )
 
-            # TODO
             for k in test_stats:
                 if self.writer and dist_utils.is_main_process():
                     for i, v in enumerate(test_stats[k]):

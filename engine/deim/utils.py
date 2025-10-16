@@ -90,7 +90,6 @@ def deformable_attention_core_func_v2(\
     Returns:
         output (Tensor): [bs, Length_{query}, C]
     """
-    # TODO find the version
     if value_shape == 'default':
         bs, n_head, c, _ = value[0].shape
     elif value_shape == 'reshape':   # reshape following RT-DETR

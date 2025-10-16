@@ -52,6 +52,19 @@ You can deploy models in optimized runtimes:
 |  **L**  |  COCO   |        **53.4**        |     **54.3**      |   42M   | 9.15ms  |  136   |  [yml](https://github.com/supervisely-ecosystem/deim/blob/master/configs/deim_rtdetrv2/deim_r50vd_60e_coco.yml)  | [ckpt](https://drive.google.com/file/d/1mWknAXD5JYknUQ94WCEvPfXz13jcNOTI/view?usp=drive_link) |
 |  **X**  |  COCO   |        **54.3**        |     **55.5**      |   76M   | 13.66ms |  259   | [yml](https://github.com/supervisely-ecosystem/deim/blob/master/configs/deim_rtdetrv2/deim_r101vd_60e_coco.yml)  | [ckpt](https://drive.google.com/file/d/1BIevZijOcBO17llTyDX32F_pYppBfnzu/view?usp=drive_link) |
 
+### DEIMv2
+
+|   Model   | Dataset |    AP    | #Params | GFLOPs | Latency (ms) |                                                     config                                                      |                                                   checkpoint                                                   |
+| :-------: | :-----: | :------: | :-----: | :----: | :----------: | :-------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: |
+| **Atto**  |  COCO   | **23.8** |  0.5M   |  0.8   |     1.10     | [yml](https://github.com/supervisely-ecosystem/DEIMv2/blob/master/configs/deimv2/deimv2_hgnetv2_atto_coco.yml)  | [ckpt](https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_hgnetv2_atto_coco.pth)  |
+| **Femto** |  COCO   | **31.0** |  1.0M   |  1.7   |     1.45     | [yml](https://github.com/supervisely-ecosystem/DEIMv2/blob/master/configs/deimv2/deimv2_hgnetv2_femto_coco.yml) | [ckpt](https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_hgnetv2_femto_coco.pth) |
+| **Pico**  |  COCO   | **38.5** |  1.5M   |  5.2   |     2.13     | [yml](https://github.com/supervisely-ecosystem/DEIMv2/blob/master/configs/deimv2/deimv2_hgnetv2_pico_coco.yml)  | [ckpt](https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_hgnetv2_pico_coco.pth)  |
+|   **N**   |  COCO   | **43.0** |  3.6M   |  6.8   |     2.32     |   [yml](https://github.com/supervisely-ecosystem/DEIMv2/blob/master/configs/deimv2/deimv2_hgnetv2_n_coco.yml)   |   [ckpt](https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_hgnetv2_n_coco.pth)   |
+|   **S**   |  COCO   | **50.9** |  9.7M   |  25.6  |     5.78     |   [yml](https://github.com/supervisely-ecosystem/DEIMv2/blob/master/configs/deimv2/deimv2_dinov3_s_coco.yml)    |   [ckpt](https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_dinov3_s_coco.pth)    |
+|   **M**   |  COCO   | **53.0** |  18.1M  |  52.2  |     8.80     |   [yml](https://github.com/supervisely-ecosystem/DEIMv2/blob/master/configs/deimv2/deimv2_dinov3_m_coco.yml)    |   [ckpt](https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_dinov3_m_coco.pth)    |
+|   **L**   |  COCO   | **56.0** |  32.2M  |  96.7  |    10.47     |   [yml](https://github.com/supervisely-ecosystem/DEIMv2/blob/master/configs/deimv2/deimv2_dinov3_l_coco.yml)    |   [ckpt](https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_dinov3_l_coco.pth)    |
+|   **X**   |  COCO   | **57.8** |  50.3M  | 151.6  |    13.75     |   [yml](https://github.com/supervisely-ecosystem/DEIMv2/blob/master/configs/deimv2/deimv2_dinov3_x_coco.yml)    |   [ckpt](https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_dinov3_x_coco.pth)    |
+
 # How to Run
 
 0. Start the application from project context menu or the Ecosystem.

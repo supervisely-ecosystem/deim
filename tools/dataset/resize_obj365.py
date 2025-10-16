@@ -23,7 +23,6 @@ def resize_image_and_update_annotations(image_path, annotations, max_size=640):
             print(f"Resizing image to width={new_w}, height={new_h}")
 
             img = img.resize((new_w, new_h), Image.Resampling.LANCZOS)
-            # TODO
             new_image_path = image_path.replace('.jpg', '_resized{}.jpg'.format(max_size))
             img.save(new_image_path)
             print(f"Resized image saved: {new_image_path}")

@@ -95,8 +95,10 @@ def convert_data():
 def prepare_config(train_ann_path: str, val_ann_path: str):
     if train.model_name.startswith("DEIM D-FINE"):
         deim_config_dir = "configs/deim_dfine"
-    else:
+    elif train.model_name.startswith("DEIM RT-DETRv2"):
         deim_config_dir = "configs/deim_rtdetrv2"
+    else:
+        deim_config_dir = "configs/deimv2"
     if train.model_source == ModelSource.CUSTOM:
         config_path = train.model_files["config"]
         config = os.path.basename(config_path)
