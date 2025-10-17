@@ -11,9 +11,9 @@
     "train",
     "framework:DEIM"
   ],
-  "icon": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/icon_deim_train.png",
+  "icon": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/icon_deimv2_train.png",
   "icon_cover": true,
-  "poster": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/poster_deim_train.png",
+  "poster": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/poster_deimv2_train.png",
   "description": "Train DEIMv2 models on your data",
   "docker_image": "supervisely/deim:1.0.18",
   "cuda_version": 12.8,
