@@ -85,6 +85,10 @@ class BaseCollateFunction(object):
 
 
 def generate_scales(base_size, base_size_repeat):
+    # Handle case where base_size is a list/tuple [height, width]
+    if isinstance(base_size, (list, tuple)):
+        base_size = max(base_size)  # Use the maximum dimension for scaling
+
     scale_repeat = (base_size - int(base_size * 0.75 / 32) * 32) // 32
     scales = [int(base_size * 0.75 / 32) * 32 + i * 32 for i in range(scale_repeat)]
     scales += [base_size] * base_size_repeat
