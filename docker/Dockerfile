@@ -56,6 +56,17 @@ RUN mkdir -p ~/.cache/supervisely/checkpoints && \
     curl -L -o ~/.cache/supervisely/checkpoints/deim_rtdetrv2_r50vd_coco_60e.pth https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_rtdetrv2_r50vd_coco_60e.pth && \
     curl -L -o ~/.cache/supervisely/checkpoints/deim_rtdetrv2_r101vd_coco_60e.pth https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_rtdetrv2_r101vd_coco_60e.pth
 
+# DEIMv2 models
+RUN mkdir -p ~/.cache/supervisely/checkpoints && \
+    curl -L -o ~/.cache/supervisely/checkpoints/deimv2_hgnetv2_atto_coco.pth https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_hgnetv2_atto_coco.pth && \
+    curl -L -o ~/.cache/supervisely/checkpoints/deimv2_hgnetv2_femto_coco.pth https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_hgnetv2_femto_coco.pth && \
+    curl -L -o ~/.cache/supervisely/checkpoints/deimv2_hgnetv2_pico_coco.pth https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_hgnetv2_pico_coco.pth && \
+    curl -L -o ~/.cache/supervisely/checkpoints/deimv2_hgnetv2_n_coco.pth https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_hgnetv2_n_coco.pth && \
+    curl -L -o ~/.cache/supervisely/checkpoints/deimv2_dinov3_s_coco.pth https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_dinov3_s_coco.pth && \
+    curl -L -o ~/.cache/supervisely/checkpoints/deimv2_dinov3_m_coco.pth https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_dinov3_m_coco.pth && \
+    curl -L -o ~/.cache/supervisely/checkpoints/deimv2_dinov3_l_coco.pth https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_dinov3_l_coco.pth && \
+    curl -L -o ~/.cache/supervisely/checkpoints/deimv2_dinov3_x_coco.pth https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_dinov3_x_coco.pth
+
 # Install Dependencies
 RUN pip install --no-cache-dir torch==2.7.1 torchvision==0.22.1 --index-url https://download.pytorch.org/whl/cu128
 RUN pip install --no-cache-dir onnx==1.16.1 onnxruntime-gpu==1.19.2

@@ -2,7 +2,7 @@
 
 <img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/poster_deim_serve.png"/>
 
-# Serve DEIM
+# Serve DEIMv2
 
 <p align="center">
   <a href="#overview">Overview</a> •
@@ -29,6 +29,12 @@ You can deploy models in optimized runtimes:
 
 - **TensorRT** is a very optimized environment for Nvidia GPU devices. TensorRT can significantly boost the inference speed.
 - **ONNXRuntime** can speed up inference on some CPU and GPU devices.
+
+# Updates
+
+## v1.1.0
+
+- Add DEIMv2 models to the app.
 
 ## Model Zoo
 

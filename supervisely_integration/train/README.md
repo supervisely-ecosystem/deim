@@ -2,7 +2,7 @@
 
 <img src="https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/poster_deim_train.png"/>
 
-# Train DEIM
+# Train DEIMv2
 
 <p align="center">
   <a href="#overview">Overview</a> •
@@ -23,6 +23,12 @@
 # Overview
 
 This app allows you to train models using DEIM checkpoints from D-FINE and RT-DETRv2 architectures on a selected dataset. You can define model checkpoints, data split methods, training hyperparameters and many other features related to model training. The app supports models pretrained on COCO dataset and models trained on custom datasets.
+
+# Updates
+
+## v1.1.0
+
+- Add DEIMv2 models to the app.
 
 ## Model Zoo
 
