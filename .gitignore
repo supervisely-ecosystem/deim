@@ -148,5 +148,7 @@ configs/deim_rtdetrv2/custom_config.yml
 configs/deim_rtdetrv2/model_config.yml
 configs/deim_dfine/custom_config.yml
 configs/deim_dfine/model_config.yml
+configs/deimv2/custom_config.yml
+configs/deimv2/model_config.yml
 experiment_report
 supervisely.env
