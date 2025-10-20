@@ -1,29 +1,52 @@
-epoches: 50
-batch_size: 16
+# See DEIMv2 README to adjust hyperparameters properly
+# https://github.com/Intellindust-AI-Lab/DEIMv2?tab=readme-ov-file#3-usage
+epoches: 58
+batch_size: 8
 eval_spatial_size: [640, 640]  # [height, width] Must be divisible by 32
 
 checkpoint_freq: 5  # set 0 to keep only best and last checkpoints
 save_optimizer: false
-save_ema: false
 
 optimizer:
   type: AdamW
+  ## Uncomment and modify to override defaults:
   # lr: 0.0002
-  betas: [0.9, 0.999]
-  weight_decay: 0.0001
+  # betas: [0.9, 0.999]
+  # weight_decay: 0.0001
 
-clip_max_norm: 1.0  # gradient clipping
+clip_max_norm: 0.2  # gradient clipping
 
 ## DEIM LR-Scheduler
 lrsheduler: flatcosine
 warmup_iter: 200  # first iterations with linear warmup
-flat_epoch: 29    # epoches with constant learning rate
-no_aug_epoch: 0   # epoches without augmentation
+flat_epoch: 29    # epoches with constant learning rate (epoches // 2)
+no_aug_epoch: 8   # epoches without augmentation
 
-use_ema: False  # Exponential Moving Average for model weights
+use_ema: True  # Exponential Moving Average for model weights
 ema:
   type: ModelEMA
   decay: 0.9999
-  warmups: 400
+  warmups: 200
 
 use_amp: True  # Automatic Mixed Precision
+
+train_dataloader: 
+  dataset: 
+    transforms:
+      policy:
+        epoch: [4, 29, 50]   # list of epochs when to change policy
+      mosaic_prob: 0.5
+
+  collate_fn:
+    stop_epoch: 50    # epoch in [50, ~) stop `multiscales`
+    # Mixup options
+    mixup_prob: 0.5
+    mixup_epochs: [4, 29]
+    # CopyBlend options
+    copyblend_prob: 0.5
+    copyblend_epochs: [4, 50]
+
+## DEIM Loss
+DEIMCriterion:
+  matcher:
+    matcher_change_epoch: 45
