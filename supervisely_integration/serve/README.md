@@ -146,4 +146,4 @@ We provide several demo scripts to run inference with your checkpoint:
 
 # Acknowledgment
 
-This app is based on the `deim` model ([github](https://github.com/ShihuaHuang95/DEIM)). ![GitHub Org's stars](https://img.shields.io/github/stars/ShihuaHuang95/DEIM?style=social)
+This app is based on the `DEIMv2` model ([github](https://github.com/Intellindust-AI-Lab/DEIMv2)). ![GitHub Org's stars](https://img.shields.io/github/stars/Intellindust-AI-Lab/DEIMv2?style=social)
