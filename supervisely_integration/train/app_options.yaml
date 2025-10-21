@@ -63,5 +63,5 @@ demo:
 
 # ==================== Acknowledgment ======================
 original_repository:
-  name: "DEIM"
-  url: "https://github.com/Intellindust-AI-Lab/DEIM"
+  name: "DEIMv2"
+  url: "https://github.com/Intellindust-AI-Lab/DEIMv2"

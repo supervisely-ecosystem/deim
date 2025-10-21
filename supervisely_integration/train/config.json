@@ -41,6 +41,6 @@
     "conference": "CVPR 2025",
     "released": "2025",
     "description": "SOTA real-time object detection model based on DETR architecture. The framework is designed to accelerate training convergence and improve detection accuracy.",
-    "github": "https://github.com/Intellindust-AI-Lab/DEIM"
+    "github": "https://github.com/Intellindust-AI-Lab/DEIMv2"
   }
 }
