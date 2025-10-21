@@ -68,13 +68,18 @@ RUN mkdir -p ~/.cache/supervisely/checkpoints && \
     curl -L -o ~/.cache/supervisely/checkpoints/deimv2_dinov3_x_coco.pth https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deimv2_dinov3_x_coco.pth
 
 # Install Dependencies
+## Torch Installation
 RUN pip install --no-cache-dir torch==2.7.1 torchvision==0.22.1 --index-url https://download.pytorch.org/whl/cu128
+## Onnx Installation
 RUN pip install --no-cache-dir onnx==1.16.1 onnxruntime-gpu==1.19.2
+## TensorRT Installation
 RUN pip install --no-cache-dir tensorrt-cu12==10.9.0.34
 
+## Other Dependencies
 RUN pip install --no-cache-dir setuptools==69.5.1 tensorboard imgaug==0.4.0
 RUN pip install --no-cache-dir transformers==4.50.3 calflops==0.3.2 scipy==1.15.2 faster-coco-eval==1.6.5
 
+## Supervisely Installation
 RUN pip install --no-cache-dir supervisely[training]==6.73.457
 RUN pip install --no-cache-dir supervisely[tracking]==6.73.457
 RUN pip install --no-cache-dir supervisely[model-benchmark]==6.73.457
