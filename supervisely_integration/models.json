@@ -107,7 +107,7 @@
       "model_name": "DEIMv2 DINOv3 L",
       "model_files": {
         "checkpoint": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deimv2_dinov3_l_coco.pth",
-        "config": "deimv2_dinov3_s_coco.yml"
+        "config": "deimv2_dinov3_l_coco.yml"
       }
     }
   },
