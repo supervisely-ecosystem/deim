@@ -40,33 +40,23 @@ You can deploy models in optimized runtimes:
 
 ### DEIM-D-FINE
 
-| Model | Dataset | AP<sup>D-FINE</sup> | AP<sup>DEIM</sup> | #Params | Latency | GFLOPs |                                                   config                                                    |                                                    checkpoint                                                    |
-| :---: | :-----: | :-----------------: | :---------------: | :-----: | :-----: | :----: | :---------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------: |
-| **N** |  COCO   |      **42.8**       |     **43.0**      |   4M    | 2.12ms  |   7    | [yml](https://github.com/supervisely-ecosystem/deim/blob/master/configs/deim_dfine/deim_hgnetv2_n_coco.yml) | [ckpt](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_dfine_hgnetv2_n_coco_160e.pth |
-|   )   |
-| **S** |  COCO   |      **48.7**       |     **49.0**      |   10M   | 3.49ms  |   25   | [yml](https://github.com/supervisely-ecosystem/deim/blob/master/configs/deim_dfine/deim_hgnetv2_s_coco.yml) | [ckpt](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_dfine_hgnetv2_s_coco_120e.pth |
-|   )   |
-| **M** |  COCO   |      **52.3**       |     **52.7**      |   19M   | 5.62ms  |   57   | [yml](https://github.com/supervisely-ecosystem/deim/blob/master/configs/deim_dfine/deim_hgnetv2_m_coco.yml) | [ckpt](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_dfine_hgnetv2_m_coco_90e.pth  |
-|   )   |
-| **L** |  COCO   |      **54.0**       |     **54.7**      |   31M   | 8.07ms  |   91   | [yml](https://github.com/supervisely-ecosystem/deim/blob/master/configs/deim_dfine/deim_hgnetv2_l_coco.yml) | [ckpt](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_dfine_hgnetv2_l_coco_50e.pth  |
-|   )   |
-| **X** |  COCO   |      **55.8**       |     **56.5**      |   62M   | 12.89ms |  202   | [yml](https://github.com/supervisely-ecosystem/deim/blob/master/configs/deim_dfine/deim_hgnetv2_x_coco.yml) | [ckpt](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_dfine_hgnetv2_x_coco_50e.pth  |
-|   )   |
+| Model | Dataset | AP<sup>D-FINE</sup> | AP<sup>DEIM</sup> | #Params | Latency | GFLOPs |                                                   config                                                    |                                                    checkpoint                                                     |
+| :---: | :-----: | :-----------------: | :---------------: | :-----: | :-----: | :----: | :---------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------: |
+| **N** |  COCO   |      **42.8**       |     **43.0**      |   4M    | 2.12ms  |   7    | [yml](https://github.com/supervisely-ecosystem/deim/blob/master/configs/deim_dfine/deim_hgnetv2_n_coco.yml) | [ckpt](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_dfine_hgnetv2_n_coco_160e.pth) |
+| **S** |  COCO   |      **48.7**       |     **49.0**      |   10M   | 3.49ms  |   25   | [yml](https://github.com/supervisely-ecosystem/deim/blob/master/configs/deim_dfine/deim_hgnetv2_s_coco.yml) | [ckpt](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_dfine_hgnetv2_s_coco_120e.pth) |
+| **M** |  COCO   |      **52.3**       |     **52.7**      |   19M   | 5.62ms  |   57   | [yml](https://github.com/supervisely-ecosystem/deim/blob/master/configs/deim_dfine/deim_hgnetv2_m_coco.yml) | [ckpt](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_dfine_hgnetv2_m_coco_90e.pth)  |
+| **L** |  COCO   |      **54.0**       |     **54.7**      |   31M   | 8.07ms  |   91   | [yml](https://github.com/supervisely-ecosystem/deim/blob/master/configs/deim_dfine/deim_hgnetv2_l_coco.yml) | [ckpt](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_dfine_hgnetv2_l_coco_50e.pth)  |
+| **X** |  COCO   |      **55.8**       |     **56.5**      |   62M   | 12.89ms |  202   | [yml](https://github.com/supervisely-ecosystem/deim/blob/master/configs/deim_dfine/deim_hgnetv2_x_coco.yml) | [ckpt](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_dfine_hgnetv2_x_coco_50e.pth)  |
 
 ### DEIM-RT-DETRv2
 
-|  Model  | Dataset | AP<sup>RT-DETRv2</sup> | AP<sup>DEIM</sup> | #Params | Latency | GFLOPs |                                                      config                                                      |                                                    checkpoint                                                    |
-| :-----: | :-----: | :--------------------: | :---------------: | :-----: | :-----: | :----: | :--------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------: |
-|  **S**  |  COCO   |        **47.9**        |     **49.0**      |   20M   | 4.59ms  |   60   | [yml](https://github.com/supervisely-ecosystem/deim/blob/master/configs/deim_rtdetrv2/deim_r18vd_120e_coco.yml)  | [ckpt](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_rtdetrv2_r18vd_coco_120e.pth  |
-|    )    |
-|  **M**  |  COCO   |        **49.9**        |     **50.9**      |   31M   | 6.40ms  |   92   | [yml](https://github.com/supervisely-ecosystem/deim/blob/master/configs/deim_rtdetrv2/deim_r34vd_120e_coco.yml)  | [ckpt](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_rtdetrv2_r34vd_coco_120e.pth  |
-|    )    |
-| **M\*** |  COCO   |        **51.9**        |     **53.2**      |   33M   | 6.90ms  |  100   | [yml](https://github.com/supervisely-ecosystem/deim/blob/master/configs/deim_rtdetrv2/deim_r50vd_m_60e_coco.yml) | [ckpt](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_rtdetrv2_r50vd_m_coco_60e.pth |
-|    )    |
-|  **L**  |  COCO   |        **53.4**        |     **54.3**      |   42M   | 9.15ms  |  136   |  [yml](https://github.com/supervisely-ecosystem/deim/blob/master/configs/deim_rtdetrv2/deim_r50vd_60e_coco.yml)  |  [ckpt](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_rtdetrv2_r50vd_coco_60e.pth  |
-|    )    |
-|  **X**  |  COCO   |        **54.3**        |     **55.5**      |   76M   | 13.66ms |  259   | [yml](https://github.com/supervisely-ecosystem/deim/blob/master/configs/deim_rtdetrv2/deim_r101vd_60e_coco.yml)  | [ckpt](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_rtdetrv2_r101vd_coco_60e.pth  |
-|    )    |
+|  Model  | Dataset | AP<sup>RT-DETRv2</sup> | AP<sup>DEIM</sup> | #Params | Latency | GFLOPs |                                                      config                                                      |                                                    checkpoint                                                     |
+| :-----: | :-----: | :--------------------: | :---------------: | :-----: | :-----: | :----: | :--------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------: |
+|  **S**  |  COCO   |        **47.9**        |     **49.0**      |   20M   | 4.59ms  |   60   | [yml](https://github.com/supervisely-ecosystem/deim/blob/master/configs/deim_rtdetrv2/deim_r18vd_120e_coco.yml)  | [ckpt](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_rtdetrv2_r18vd_coco_120e.pth)  |
+|  **M**  |  COCO   |        **49.9**        |     **50.9**      |   31M   | 6.40ms  |   92   | [yml](https://github.com/supervisely-ecosystem/deim/blob/master/configs/deim_rtdetrv2/deim_r34vd_120e_coco.yml)  | [ckpt](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_rtdetrv2_r34vd_coco_120e.pth)  |
+| **M\*** |  COCO   |        **51.9**        |     **53.2**      |   33M   | 6.90ms  |  100   | [yml](https://github.com/supervisely-ecosystem/deim/blob/master/configs/deim_rtdetrv2/deim_r50vd_m_60e_coco.yml) | [ckpt](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_rtdetrv2_r50vd_m_coco_60e.pth) |
+|  **L**  |  COCO   |        **53.4**        |     **54.3**      |   42M   | 9.15ms  |  136   |  [yml](https://github.com/supervisely-ecosystem/deim/blob/master/configs/deim_rtdetrv2/deim_r50vd_60e_coco.yml)  |  [ckpt](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_rtdetrv2_r50vd_coco_60e.pth)  |
+|  **X**  |  COCO   |        **54.3**        |     **55.5**      |   76M   | 13.66ms |  259   | [yml](https://github.com/supervisely-ecosystem/deim/blob/master/configs/deim_rtdetrv2/deim_r101vd_60e_coco.yml)  | [ckpt](https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deim_rtdetrv2_r101vd_coco_60e.pth)  |
 
 ### DEIMv2
 
