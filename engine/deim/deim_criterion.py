@@ -263,7 +263,7 @@ class DEIMCriterion(nn.Module):
         assert loss in loss_map, f'do you really want to compute {loss} loss?'
         return loss_map[loss](outputs, targets, indices, num_boxes, **kwargs)
 
-    def forward(self, outputs, targets, **kwargs):
+    def forward(self, outputs, targets, epoch=0, **kwargs):
         """ This performs the loss computation.
         Parameters:
              outputs: dict of tensors, see the output specification of the model for the format
@@ -273,7 +273,7 @@ class DEIMCriterion(nn.Module):
         outputs_without_aux = {k: v for k, v in outputs.items() if 'aux' not in k}
 
         # Retrieve the matching between the outputs of the last layer and the targets
-        indices = self.matcher(outputs_without_aux, targets)['indices']
+        indices = self.matcher(outputs_without_aux, targets, epoch=epoch)['indices']
         self._clear_cache()
 
         # Get the matching union set across all decoder layers.
@@ -283,11 +283,11 @@ class DEIMCriterion(nn.Module):
             if 'pre_outputs' in outputs:
                 aux_outputs_list = outputs['aux_outputs'] + [outputs['pre_outputs']]
             for i, aux_outputs in enumerate(aux_outputs_list):
-                indices_aux = self.matcher(aux_outputs, targets)['indices']
+                indices_aux = self.matcher(aux_outputs, targets, epoch=epoch)['indices']
                 cached_indices.append(indices_aux)
                 indices_aux_list.append(indices_aux)
             for i, aux_outputs in enumerate(outputs['enc_aux_outputs']):
-                indices_enc = self.matcher(aux_outputs, targets)['indices']
+                indices_enc = self.matcher(aux_outputs, targets, epoch=epoch)['indices']
                 cached_indices_enc.append(indices_enc)
                 indices_aux_list.append(indices_enc)
             indices_go = self._get_go_indices(indices, indices_aux_list)
@@ -310,7 +310,6 @@ class DEIMCriterion(nn.Module):
         # Compute all the requested losses, main loss
         losses = {}
         for loss in self.losses:
-            # TODO, indices and num_box are different from RT-DETRv2
             use_uni_set = self.use_uni_set and (loss in ['boxes', 'local'])
             indices_in = indices_go if use_uni_set else indices
             num_boxes_in = num_boxes_go if use_uni_set else num_boxes
@@ -325,7 +324,6 @@ class DEIMCriterion(nn.Module):
                 if 'local' in self.losses:      # only work for local loss
                     aux_outputs['up'], aux_outputs['reg_scale'] = outputs['up'], outputs['reg_scale']
                 for loss in self.losses:
-                    # TODO, indices and num_box are different from RT-DETRv2
                     use_uni_set = self.use_uni_set and (loss in ['boxes', 'local'])
                     indices_in = indices_go if use_uni_set else cached_indices[i]
                     num_boxes_in = num_boxes_go if use_uni_set else num_boxes
@@ -340,7 +338,6 @@ class DEIMCriterion(nn.Module):
         if 'pre_outputs' in outputs:
             aux_outputs = outputs['pre_outputs']
             for loss in self.losses:
-                # TODO, indices and num_box are different from RT-DETRv2
                 use_uni_set = self.use_uni_set and (loss in ['boxes', 'local'])
                 indices_in = indices_go if use_uni_set else cached_indices[-1]
                 num_boxes_in = num_boxes_go if use_uni_set else num_boxes
@@ -366,7 +363,6 @@ class DEIMCriterion(nn.Module):
 
             for i, aux_outputs in enumerate(outputs['enc_aux_outputs']):
                 for loss in self.losses:
-                    # TODO, indices and num_box are different from RT-DETRv2
                     use_uni_set = self.use_uni_set and (loss == 'boxes')
                     indices_in = indices_go if use_uni_set else cached_indices_enc[i]
                     num_boxes_in = num_boxes_go if use_uni_set else num_boxes

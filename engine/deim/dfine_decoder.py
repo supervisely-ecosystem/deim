@@ -358,7 +358,6 @@ class TransformerDecoder(nn.Module):
             ref_points_input = ref_points_detach.unsqueeze(2)
             query_pos_embed = query_pos_head(ref_points_detach).clamp(min=-10, max=10)
 
-            # TODO Adjust scale if needed for detachable wider layers
             if i >= self.eval_idx + 1 and self.layer_scale > 1:
                 query_pos_embed = F.interpolate(query_pos_embed, scale_factor=self.layer_scale)
                 value = self.value_op(memory, None, query_pos_embed.shape[-1], memory_mask, spatial_shapes)
@@ -645,7 +644,6 @@ class DFINETransformer(nn.Module):
             anchors = anchors.repeat(memory.shape[0], 1, 1)
 
         # memory = torch.where(valid_mask, memory, 0)
-        # TODO fix type error for onnx export
         memory = valid_mask.to(memory.dtype) * memory
 
         output_memory :torch.Tensor = self.enc_output(memory)

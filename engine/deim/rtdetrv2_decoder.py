@@ -508,7 +508,6 @@ class RTDETRTransformerv2(nn.Module):
             valid_mask = self.valid_mask
 
         # memory = torch.where(valid_mask, memory, 0)
-        # TODO fix type error for onnx export 
         memory = valid_mask.to(memory.dtype) * memory  
 
         output_memory :torch.Tensor = self.enc_output(memory)

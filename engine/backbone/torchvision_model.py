@@ -21,7 +21,6 @@ class TorchVisionModel(torch.nn.Module):
 
         model = torchvision.models.get_model(name, weights=weights, **kwargs)
 
-        # TODO hard code.
         if hasattr(model, 'features'):
             model = IntermediateLayerGetter(model.features, return_layers)
         else:

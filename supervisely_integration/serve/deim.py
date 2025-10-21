@@ -227,8 +227,10 @@ class DEIM(sly.nn.inference.ObjectDetection):
         model_name = model_info["meta"]["model_name"]
         if model_name.startswith("DEIM D-FINE"):
             CONFIG_DIR = "configs/deim_dfine"
-        else:
+        elif model_name.startswith("DEIM RT-DETRv2"):
             CONFIG_DIR = "configs/deim_rtdetrv2"
+        else:
+            CONFIG_DIR = "configs/deimv2"
         config_path = f'{CONFIG_DIR}/{get_file_name_with_ext(model_files["config"])}'
         self.classes = list(mscoco_category2name.values())
         obj_classes = [sly.ObjClass(name, sly.Rectangle) for name in self.classes]
@@ -248,8 +250,10 @@ class DEIM(sly.nn.inference.ObjectDetection):
             model_name = model_info["meta"]["model_name"]
             if model_name.startswith("DEIM D-FINE"):
                 CONFIG_DIR = "configs/deim_dfine"
-            else:
+            elif model_name.startswith("DEIM RT-DETRv2"):
                 CONFIG_DIR = "configs/deim_rtdetrv2"
+            else:
+                CONFIG_DIR = "configs/deimv2"
             config_path = f'{CONFIG_DIR}/{get_file_name_with_ext(model_files["config"])}'
         else:
             config_path = model_files["config"]

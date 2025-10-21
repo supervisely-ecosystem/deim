@@ -1,7 +1,7 @@
 {
   "type": "app",
   "version": "2.0.0",
-  "name": "Serve DEIM",
+  "name": "Serve DEIMv2",
   "entrypoint": "python3 -m uvicorn main:model.app --host 0.0.0.0 --port 8000 --ws websockets --app-dir supervisely_integration/serve",
   "port": 8000,
   "categories": [
@@ -11,15 +11,15 @@
     "serve",
     "framework:DEIM"
   ],
-  "icon": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/icon_deim_serve.png",
+  "icon": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/icon_deimv2_serve.png",
   "icon_cover": true,
-  "poster": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/poster_deim_serve.png",
-  "description": "Deploy DEIM as a REST API service",
+  "poster": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/poster_deimv2_serve.png",
+  "description": "Deploy DEIMv2 models as a REST API service",
   "need_gpu": false,
   "gpu": "preferred",
   "session_tags": ["deployed_nn"],
   "community_agent": false,
-  "docker_image": "supervisely/deim:1.0.18",
+  "docker_image": "supervisely/deim:1.1.0",
   "cuda_version": 12.8,
   "task_location": "application_sessions",
   "license": {

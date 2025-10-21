@@ -12,7 +12,7 @@ import torch.nn.functional as F
 from scipy.optimize import linear_sum_assignment
 from typing import Dict
 
-from .box_ops import box_cxcywh_to_xyxy, generalized_box_iou
+from .box_ops import box_cxcywh_to_xyxy, generalized_box_iou, box_iou
 
 from ..core import register
 import numpy as np
@@ -29,7 +29,8 @@ class HungarianMatcher(nn.Module):
 
     __share__ = ['use_focal_loss', ]
 
-    def __init__(self, weight_dict, use_focal_loss=False, alpha=0.25, gamma=2.0):
+    def __init__(self, weight_dict, use_focal_loss=False, alpha=0.25, gamma=2.0,
+                change_matcher=False, iou_order_alpha=1.0, matcher_change_epoch=10000):
         """Creates the matcher
 
         Params:
@@ -42,6 +43,12 @@ class HungarianMatcher(nn.Module):
         self.cost_bbox = weight_dict['cost_bbox']
         self.cost_giou = weight_dict['cost_giou']
 
+        self.change_matcher = change_matcher
+        self.iou_order_alpha = iou_order_alpha
+        self.matcher_change_epoch = matcher_change_epoch
+        if self.change_matcher:
+            print(f"Using the new matching cost with iou_order_alpha = {iou_order_alpha} at epoch {matcher_change_epoch}")
+
         self.use_focal_loss = use_focal_loss
         self.alpha = alpha
         self.gamma = gamma
@@ -49,7 +56,7 @@ class HungarianMatcher(nn.Module):
         assert self.cost_class != 0 or self.cost_bbox != 0 or self.cost_giou != 0, "all costs cant be 0"
 
     @torch.no_grad()
-    def forward(self, outputs: Dict[str, torch.Tensor], targets, return_topk=False):
+    def forward(self, outputs: Dict[str, torch.Tensor], targets, return_topk=False, epoch=0):
         """ Performs the matching
 
         Params:
@@ -83,29 +90,39 @@ class HungarianMatcher(nn.Module):
         tgt_ids = torch.cat([v["labels"] for v in targets])
         tgt_bbox = torch.cat([v["boxes"] for v in targets])
 
-        # Compute the classification cost. Contrary to the loss, we don't use the NLL,
-        # but approximate it in 1 - proba[target class].
-        # The 1 is a constant that doesn't change the matching, it can be ommitted.
-        if self.use_focal_loss:
-            out_prob = out_prob[:, tgt_ids]
-            neg_cost_class = (1 - self.alpha) * (out_prob ** self.gamma) * (-(1 - out_prob + 1e-8).log())
-            pos_cost_class = self.alpha * ((1 - out_prob) ** self.gamma) * (-(out_prob + 1e-8).log())
-            cost_class = pos_cost_class - neg_cost_class
+        if self.change_matcher and epoch >= self.matcher_change_epoch:
+            # Compute the class_score
+            class_score = out_prob[:, tgt_ids]  # shape = [batch_size * num_queries, gt num within a batch]
+
+            # # Compute iou
+            bbox_iou, _ = box_iou(box_cxcywh_to_xyxy(out_bbox), box_cxcywh_to_xyxy(tgt_bbox))
+
+            # Final cost matrix
+            C = (-1) * (class_score * torch.pow(bbox_iou, self.iou_order_alpha))
         else:
-            cost_class = -out_prob[:, tgt_ids]
+            # Compute the classification cost. Contrary to the loss, we don't use the NLL,
+            # but approximate it in 1 - proba[target class].
+            # The 1 is a constant that doesn't change the matching, it can be ommitted.
+            if self.use_focal_loss:
+                out_prob = out_prob[:, tgt_ids]
+                neg_cost_class = (1 - self.alpha) * (out_prob ** self.gamma) * (-(1 - out_prob + 1e-8).log())
+                pos_cost_class = self.alpha * ((1 - out_prob) ** self.gamma) * (-(out_prob + 1e-8).log())
+                cost_class = pos_cost_class - neg_cost_class
+            else:
+                cost_class = -out_prob[:, tgt_ids]
 
-        # Compute the L1 cost between boxes
-        cost_bbox = torch.cdist(out_bbox, tgt_bbox, p=1)
+            # Compute the L1 cost between boxes
+            cost_bbox = torch.cdist(out_bbox, tgt_bbox, p=1)
 
-        # Compute the giou cost betwen boxes
-        cost_giou = -generalized_box_iou(box_cxcywh_to_xyxy(out_bbox), box_cxcywh_to_xyxy(tgt_bbox))
+            # Compute the giou cost betwen boxes
+            cost_giou = -generalized_box_iou(box_cxcywh_to_xyxy(out_bbox), box_cxcywh_to_xyxy(tgt_bbox))
 
-        # Final cost matrix 3 * self.cost_bbox + 2 * self.cost_class + self.cost_giou
-        C = self.cost_bbox * cost_bbox + self.cost_class * cost_class + self.cost_giou * cost_giou
+            # Final cost matrix 3 * self.cost_bbox + 2 * self.cost_class + self.cost_giou
+            C = self.cost_bbox * cost_bbox + self.cost_class * cost_class + self.cost_giou * cost_giou
+
         C = C.view(bs, num_queries, -1).cpu()
 
         sizes = [len(v["boxes"]) for v in targets]
-        # FIXME，RT-DETR, different way to set NaN
         C = torch.nan_to_num(C, nan=1.0)
         indices_pre = [linear_sum_assignment(c[i]) for i, c in enumerate(C.split(sizes, -1))]
         indices = [(torch.as_tensor(i, dtype=torch.int64), torch.as_tensor(j, dtype=torch.int64)) for i, j in indices_pre]

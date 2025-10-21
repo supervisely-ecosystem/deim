@@ -97,7 +97,6 @@ class ConvNormLayer(nn.Module):
         return self.act(self.norm(self.conv(x)))
 
 
-# TODO, add activation for cv1 following YOLOv10
 # self.cv1 = Conv(c1, c2, 1, 1)
 # self.cv2 = Conv(c2, c2, k=k, s=s, g=c2, act=False)
 class SCDown(nn.Module):
@@ -194,12 +193,18 @@ class RepNCSPELAN4(nn.Module):
     # csp-elan
     def __init__(self, c1, c2, c3, c4, n=3,
                  bias=False,
-                 act="silu"):
+                 act="silu",
+                 csp_type='csp2',
+                 ):
         super().__init__()
         self.c = c3//2
         self.cv1 = ConvNormLayer_fuse(c1, c3, 1, 1, bias=bias, act=act)
-        self.cv2 = nn.Sequential(CSPLayer(c3//2, c4, n, 1, bias=bias, act=act, bottletype=VGGBlock), ConvNormLayer_fuse(c4, c4, 3, 1, bias=bias, act=act))
-        self.cv3 = nn.Sequential(CSPLayer(c4, c4, n, 1, bias=bias, act=act, bottletype=VGGBlock), ConvNormLayer_fuse(c4, c4, 3, 1, bias=bias, act=act))
+        if csp_type == 'csp2':
+            CSPLayerType = CSPLayer2
+        else:
+            CSPLayerType = CSPLayer
+        self.cv2 = nn.Sequential(CSPLayerType(c3//2, c4, n, 1, bias=bias, act=act, bottletype=VGGBlock), ConvNormLayer_fuse(c4, c4, 3, 1, bias=bias, act=act))
+        self.cv3 = nn.Sequential(CSPLayerType(c4, c4, n, 1, bias=bias, act=act, bottletype=VGGBlock), ConvNormLayer_fuse(c4, c4, 3, 1, bias=bias, act=act))
         self.cv4 = ConvNormLayer_fuse(c3+(2*c4), c2, 1, 1, bias=bias, act=act)
 
     def forward_chunk(self, x):
@@ -212,6 +217,56 @@ class RepNCSPELAN4(nn.Module):
         y.extend(m(y[-1]) for m in [self.cv2, self.cv3])
         return self.cv4(torch.cat(y, 1))
 
+
+# This layer is equivalent to RepC3 in YOLOs repo
+class CSPLayer2(nn.Module):
+    def __init__(self,
+                 in_channels,
+                 out_channels,
+                 num_blocks=3,
+                 expansion=1.0,
+                 bias=False,
+                 act="silu",
+                 bottletype=VGGBlock,
+                 ):
+        super(CSPLayer2, self).__init__()
+        hidden_channels = int(out_channels * expansion)
+
+        self.conv1 = ConvNormLayer_fuse(in_channels, hidden_channels * 2, 1, 1, bias=bias, act=act)
+        self.bottlenecks = nn.Sequential(*[
+            bottletype(hidden_channels, hidden_channels, act=act) for _ in range(num_blocks)
+        ])
+        if hidden_channels != out_channels:
+            self.conv3 = ConvNormLayer_fuse(hidden_channels, out_channels, 1, 1, bias=bias, act=act)
+        else:
+            self.conv3 = nn.Identity()
+
+    def forward(self, x):
+        y = list(self.conv1(x).chunk(2, 1))
+        return self.conv3(y[0] + self.bottlenecks(y[1]))
+
+class RepNCSPELAN5(nn.Module):
+    # csp-elan
+    def __init__(self, c1, c2, c3, c4, n=3, bias=False, act="silu"):
+        super().__init__()
+        self.c = c3 // 2
+        self.cv1 = ConvNormLayer_fuse(c1, c3, 1, 1, bias=bias, act=act)
+
+        self.cv2 = nn.Sequential(CSPLayer2(c3//2, c4, n, 1, bias=bias, act=act, bottletype=VGGBlock))
+        self.cv3 = nn.Sequential(CSPLayer2(c4, c4, n, 1, bias=bias, act=act, bottletype=VGGBlock))
+        self.cv4 = ConvNormLayer_fuse(c3+(2*c4), c2, 1, 1, bias=bias, act=act)
+
+    def forward_chunk(self, x):
+        y = list(self.cv1(x).chunk(2, 1))
+        y.extend((m(y[-1])) for m in [self.cv2, self.cv3])
+        out = self.cv4(torch.cat(y, 1))
+        return out
+
+    def forward(self, x):
+        y = list(self.cv1(x).split((self.c, self.c), 1))
+        y.extend(m(y[-1]) for m in [self.cv2, self.cv3])
+        out = self.cv4(torch.cat(y, 1))
+        return out
 
 # transformer
 class TransformerEncoderLayer(nn.Module):
@@ -300,6 +355,8 @@ class HybridEncoder(nn.Module):
                  act='silu',
                  eval_spatial_size=None,
                  version='dfine',
+                 csp_type='csp',
+                 fuse_op='cat',
                  ):
         super().__init__()
         self.in_channels = in_channels
@@ -311,15 +368,18 @@ class HybridEncoder(nn.Module):
         self.eval_spatial_size = eval_spatial_size
         self.out_channels = [hidden_dim for _ in range(len(in_channels))]
         self.out_strides = feat_strides
+        self.fuse_op = fuse_op
 
         # channel projection
         self.input_proj = nn.ModuleList()
         for in_channel in in_channels:
-            proj = nn.Sequential(OrderedDict([
-                    ('conv', nn.Conv2d(in_channel, hidden_dim, kernel_size=1, bias=False)),
-                    ('norm', nn.BatchNorm2d(hidden_dim))
-                ]))
-
+            if in_channel != hidden_dim:
+                proj = nn.Sequential(OrderedDict([
+                        ('conv', nn.Conv2d(in_channel, hidden_dim, kernel_size=1, bias=False)),
+                            ('norm', nn.BatchNorm2d(hidden_dim))
+                        ]))
+            else:
+                proj = nn.Identity()
             self.input_proj.append(proj)
 
         # encoder transformer
@@ -335,32 +395,35 @@ class HybridEncoder(nn.Module):
             TransformerEncoder(copy.deepcopy(encoder_layer), num_encoder_layers) for _ in range(len(use_encoder_idx))
         ])
 
+        input_dim = hidden_dim if self.fuse_op == 'sum' else hidden_dim * 2   # deim use sum instead of cat
+
+        Lateral_Conv = ConvNormLayer_fuse(hidden_dim, hidden_dim, 1, 1)
+        SCDown_Conv = nn.Sequential(SCDown(hidden_dim, hidden_dim, 3, 2))
+
+        c1, c2, c3, c4, num_blocks = input_dim, hidden_dim, hidden_dim*2, round(expansion * hidden_dim // 2), round(3 * depth_mult)
+        if version == 'dfine':
+            Fuse_Block = RepNCSPELAN4(c1=c1, c2=c2, c3=c3, c4=c4, n=num_blocks, act=act, csp_type=csp_type)
+        elif version == 'deim':
+            Fuse_Block = RepNCSPELAN5(c1=c1, c2=c2, c3=c3, c4=c4, n=num_blocks, act=act)
+        else:       # RT-DETR
+            Fuse_Block = CSPLayer(in_channels=c1, out_channels=c2, num_blocks=num_blocks, act=act, \
+                                    expansion=expansion, bottletype=VGGBlock)
+            Lateral_Conv = ConvNormLayer_fuse(hidden_dim, hidden_dim, 1, 1, act=act)
+            SCDown_Conv = ConvNormLayer_fuse(hidden_dim, hidden_dim, 3, 2, act=act)
+
         # top-down fpn
         self.lateral_convs = nn.ModuleList()
         self.fpn_blocks = nn.ModuleList()
         for _ in range(len(in_channels) - 1, 0, -1):
-            # TODO, add activation for those lateral convs
-            if version == 'dfine':
-                self.lateral_convs.append(ConvNormLayer_fuse(hidden_dim, hidden_dim, 1, 1))
-            else:
-                self.lateral_convs.append(ConvNormLayer_fuse(hidden_dim, hidden_dim, 1, 1, act=act))
-            self.fpn_blocks.append(
-                RepNCSPELAN4(hidden_dim * 2, hidden_dim, hidden_dim * 2, round(expansion * hidden_dim // 2), round(3 * depth_mult), act=act) \
-                if version == 'dfine' else CSPLayer(hidden_dim * 2, hidden_dim, round(3 * depth_mult), act=act, expansion=expansion, bottletype=VGGBlock)
-            )
+            self.lateral_convs.append(copy.deepcopy(Lateral_Conv))
+            self.fpn_blocks.append(copy.deepcopy(Fuse_Block))
 
         # bottom-up pan
         self.downsample_convs = nn.ModuleList()
         self.pan_blocks = nn.ModuleList()
         for _ in range(len(in_channels) - 1):
-            self.downsample_convs.append(
-                nn.Sequential(SCDown(hidden_dim, hidden_dim, 3, 2, act=act)) \
-                if version == 'dfine' else ConvNormLayer_fuse(hidden_dim, hidden_dim, 3, 2, act=act)
-            )
-            self.pan_blocks.append(
-                RepNCSPELAN4(hidden_dim * 2, hidden_dim, hidden_dim * 2, round(expansion * hidden_dim // 2), round(3 * depth_mult), act=act) \
-                if version == 'dfine' else CSPLayer(hidden_dim * 2, hidden_dim, round(3 * depth_mult), act=act, expansion=expansion, bottletype=VGGBlock)
-            )
+            self.downsample_convs.append(copy.deepcopy(SCDown_Conv))
+            self.pan_blocks.append(copy.deepcopy(Fuse_Block))
 
         self._reset_parameters()
 
@@ -419,7 +482,9 @@ class HybridEncoder(nn.Module):
             feat_heigh = self.lateral_convs[len(self.in_channels) - 1 - idx](feat_heigh)
             inner_outs[0] = feat_heigh
             upsample_feat = F.interpolate(feat_heigh, scale_factor=2., mode='nearest')
-            inner_out = self.fpn_blocks[len(self.in_channels)-1-idx](torch.concat([upsample_feat, feat_low], dim=1))
+            fused_feat = (upsample_feat + feat_low) \
+                if self.fuse_op == 'sum' else torch.concat([upsample_feat, feat_low], dim=1)
+            inner_out = self.fpn_blocks[len(self.in_channels)-1-idx](fused_feat)
             inner_outs.insert(0, inner_out)
 
         outs = [inner_outs[0]]
@@ -427,7 +492,9 @@ class HybridEncoder(nn.Module):
             feat_low = outs[-1]
             feat_height = inner_outs[idx + 1]
             downsample_feat = self.downsample_convs[idx](feat_low)
-            out = self.pan_blocks[idx](torch.concat([downsample_feat, feat_height], dim=1))
+            fused_feat = (downsample_feat + feat_height) \
+                if self.fuse_op == 'sum' else torch.concat([downsample_feat, feat_height], dim=1)
+            out = self.pan_blocks[idx](fused_feat)
             outs.append(out)
 
         return outs

@@ -73,7 +73,6 @@ def get_contrastive_denoising_training_group(targets,
         known_bbox += (rand_sign * rand_part * diff)
         known_bbox = torch.clip(known_bbox, min=0.0, max=1.0)
         input_query_bbox = box_xyxy_to_cxcywh(known_bbox)
-        # FIXME, RT-DETR do not have this 
         input_query_bbox[input_query_bbox < 0] *= -1
         input_query_bbox_unact = inverse_sigmoid(input_query_bbox)
 

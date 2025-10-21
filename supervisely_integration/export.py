@@ -22,6 +22,7 @@ def _get_args_onnx():
     parser.add_argument('--config', '-c', type=str, )
     parser.add_argument('--resume', '-r', type=str, )
     parser.add_argument('--output_file', '-o', type=str, default='model.onnx')
+    parser.add_argument('--opset', type=int, default=17,)
     parser.add_argument('--check',  action='store_true', default=False,)
     parser.add_argument('--simplify',  action='store_true', default=False,)
     args = parser.parse_args([])

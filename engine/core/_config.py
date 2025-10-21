@@ -19,7 +19,6 @@ __all__ = ['BaseConfig', ]
 
 
 class BaseConfig(object):
-    # TODO property
 
     def __init__(self) -> None:
         super().__init__()
@@ -58,7 +57,6 @@ class BaseConfig(object):
         self.epoches :int = None
         self.last_epoch :int = -1
 
-        # new_add for support self-defined cosine FIXME
         self.lrsheduler: str = None
         self.lr_gamma: float = None
         self.no_aug_epoch: int = None

@@ -1,4 +1,7 @@
 """
+DEIMv2: Real-Time Object Detection Meets DINOv3
+Copyright (c) 2025 The DEIMv2 Authors. All Rights Reserved.
+---------------------------------------------------------------------------------
 DEIM: DETR with Improved Matching for Fast Convergence
 Copyright (c) 2024 The DEIM Authors. All Rights Reserved.
 ---------------------------------------------------------------------------------
@@ -61,11 +64,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     # priority 0
-    parser.add_argument('-c', '--config', type=str, required=True)
+    parser.add_argument('-c', '--config', type=str, default='')
     parser.add_argument('-r', '--resume', type=str, help='resume from checkpoint')
     parser.add_argument('-t', '--tuning', type=str, help='tuning from checkpoint')
     parser.add_argument('-d', '--device', type=str, help='device',)
-    parser.add_argument('--seed', type=int, help='exp reproducibility')
+    parser.add_argument('--seed', type=int, default=0, help='exp reproducibility')
     parser.add_argument('--use-amp', action='store_true', help='auto mixed precision training')
     parser.add_argument('--output-dir', type=str, help='output directoy')
     parser.add_argument('--summary-dir', type=str, help='tensorboard summry')

@@ -1,63 +1,54 @@
 <h2 align="center">
-  DEIM: DETR with Improved Matching for Fast Convergence
+  Real-Time Object Detection Meets DINOv3
 </h2>
 
 <p align="center">
-    <a href="https://github.com/ShihuaHuang95/DEIM/blob/master/LICENSE">
+    <a href="https://github.com/Intellindust-AI-Lab/DEIMv2/blob/master/LICENSE">
         <img alt="license" src="https://img.shields.io/badge/LICENSE-Apache%202.0-blue">
     </a>
-    <a href="https://arxiv.org/abs/2412.04234">
-        <img alt="arXiv" src="https://img.shields.io/badge/arXiv-2412.04234-red">
+    <a href="https://arxiv.org/abs/2509.20787">
+        <img alt="arXiv" src="https://img.shields.io/badge/arXiv-2509.20787-red">
     </a>
-   <a href="https://www.shihuahuang.cn/DEIM/">
-        <img alt="project webpage" src="https://img.shields.io/badge/Webpage-DEIM-purple">
+   <a href="https://intellindust-ai-lab.github.io/projects/DEIMv2/">
+        <img alt="project webpage" src="https://img.shields.io/badge/Webpage-DEIMv2-purple">
     </a>
-    <a href="https://github.com/ShihuaHuang95/DEIM/pulls">
-        <img alt="prs" src="https://img.shields.io/github/issues-pr/ShihuaHuang95/DEIM">
+    <a href="https://github.com/Intellindust-AI-Lab/DEIMv2/pulls">
+        <img alt="prs" src="https://img.shields.io/github/issues-pr/Intellindust-AI-Lab/DEIMv2">
     </a>
-    <a href="https://github.com/ShihuaHuang95/DEIM/issues">
-        <img alt="issues" src="https://img.shields.io/github/issues/ShihuaHuang95/DEIM?color=olive">
+    <a href="https://github.com/Intellindust-AI-Lab/DEIMv2/issues">
+        <img alt="issues" src="https://img.shields.io/github/issues/Intellindust-AI-Lab/DEIMv2?color=olive">
     </a>
-    <a href="https://github.com/ShihuaHuang95/DEIM">
-        <img alt="stars" src="https://img.shields.io/github/stars/ShihuaHuang95/DEIM">
+    <a href="https://github.com/Intellindust-AI-Lab/DEIMv2">
+        <img alt="stars" src="https://img.shields.io/github/stars/Intellindust-AI-Lab/DEIMv2">
     </a>
-    <a href="mailto:shihuahuang95@gmail.com">
+    <a href="mailto:shenxi@intellindust.com">
         <img alt="Contact Us" src="https://img.shields.io/badge/Contact-Email-yellow">
     </a>
 </p>
 
 <p align="center">
-    DEIM is an advanced training framework designed to enhance the matching mechanism in DETRs, enabling faster convergence and improved accuracy. It serves as a robust foundation for future research and applications in the field of real-time object detection. 
+    DEIMv2 is an evolution of the DEIM framework while leveraging the rich features from DINOv3. Our method is designed with various model sizes, from an ultra-light version up to S, M, L, and X, to be adaptable for a wide range of scenarios. Across these variants, DEIMv2 achieves state-of-the-art performance, with the S-sized model notably surpassing 50 AP on the challenging COCO benchmark.
 </p>
 
 ---
 
 
 <div align="center">
-  <a href="http://www.shihuahuang.cn">Shihua Huang</a><sup>1</sup>,
-  <a href="https://scholar.google.com/citations?user=tIFWBcQAAAAJ&hl=en">Zhichao Lu</a><sup>2</sup>,
-  <a href="https://vinthony.github.io/academic/">Xiaodong Cun</a><sup>3</sup>,
-  Yongjun Yu<sup>1</sup>,
-  Xiao Zhou<sup>4</sup>, 
-  <a href="https://xishen0220.github.io">Xi Shen</a><sup>1*</sup>
+  <a href="http://www.shihuahuang.cn">Shihua Huang</a><sup>1*</sup>,&nbsp;&nbsp;
+  Yongjie Hou<sup>1,2*</sup>,&nbsp;&nbsp;
+  Longfei Liu<sup>1*</sup>,&nbsp;&nbsp;
+  <a href="https://xuanlong-yu.github.io/">Xuanlong Yu</a><sup>1</sup>,&nbsp;&nbsp;
+  <a href="https://xishen0220.github.io">Xi Shen</a><sup>1†</sup>&nbsp;&nbsp;
 </div>
 
   
 <p align="center">
 <i>
-1. Intellindust AI Lab &nbsp; 2. City University of Hong Kong &nbsp; 3. Great Bay University &nbsp; 4. Hefei Normal University
+1. <a href="https://intellindust-ai-lab.github.io"> Intellindust AI Lab</a> &nbsp;&nbsp; 2. Xiamen University &nbsp; <br> 
+* Equal Contribution &nbsp;&nbsp; † Corresponding Author
 </i>
 </p>
 
-<p align="center">
-  **📧 Corresponding author:** <a href="mailto:shenxiluc@gmail.com">shenxiluc@gmail.com</a>
-</p>
-
-<p align="center">
-    <a href="https://paperswithcode.com/sota/real-time-object-detection-on-coco?p=deim-detr-with-improved-matching-for-fast">
-    <img alt="sota" src="https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/deim-detr-with-improved-matching-for-fast/real-time-object-detection-on-coco">
-    </a>
-</p>
 
 <p align="center">
 <strong>If you like our work, please give us a ⭐!</strong>
@@ -65,8 +56,8 @@
 
 
 <p align="center">
-  <img src="./figures/teaser_a.png" alt="Image 1" width="49%">
-  <img src="./figures/teaser_b.png" alt="Image 2" width="49%">
+  <img src="./figures/deimv2_coco_AP_vs_Params.png" alt="Image 1" width="49%">
+  <img src="./figures/deimv2_coco_AP_vs_GFLOPs.png" alt="Image 2" width="49%">
 </p>
 
 </details>
@@ -74,41 +65,33 @@
  
   
 ## 🚀 Updates
-- [x] **\[2025.03.12\]** The Object365 Pretrained [DEIM-D-FINE-X](https://drive.google.com/file/d/1RMNrHh3bYN0FfT5ZlWhXtQxkG23xb2xj/view?usp=drive_link) model is released, which achieves 59.5% AP after fine-tuning 24 COCO epochs.
-- [x] **\[2025.03.05\]** The Nano DEIM model is released.
-- [x] **\[2025.02.27\]** The DEIM paper is accepted to CVPR 2025. Thanks to all co-authors.
-- [x] **\[2024.12.26\]** A more efficient implementation of Dense O2O, achieving nearly a 30% improvement in loading speed (See [the pull request](https://github.com/ShihuaHuang95/DEIM/pull/13) for more details). Huge thanks to my colleague [Longfei Liu](https://github.com/capsule2077).
-- [x] **\[2024.12.03\]** Release DEIM series. Besides, this repo also supports the re-implmentations of [D-FINE](https://arxiv.org/abs/2410.13842) and [RT-DETR](https://arxiv.org/abs/2407.17140).
+- [x] **\[2025.10.2\]** [DEIMv2 has been integrated into X-AnyLabeling!](https://github.com/Intellindust-AI-Lab/DEIMv2/issues/25#issue-3473960491) Many thanks to the X-AnyLabeling maintainers for making this possible.
+- [x] **\[2025.9.26\]** Release DEIMv2 series.
 
-## Table of Content
-* [1. Model Zoo](https://github.com/ShihuaHuang95/DEIM?tab=readme-ov-file#1-model-zoo)
-* [2. Quick start](https://github.com/ShihuaHuang95/DEIM?tab=readme-ov-file#2-quick-start)
-* [3. Usage](https://github.com/ShihuaHuang95/DEIM?tab=readme-ov-file#3-usage)
-* [4. Tools](https://github.com/ShihuaHuang95/DEIM?tab=readme-ov-file#4-tools)
-* [5. Citation](https://github.com/ShihuaHuang95/DEIM?tab=readme-ov-file#5-citation)
-* [6. Acknowledgement](https://github.com/ShihuaHuang95/DEIM?tab=readme-ov-file#6-acknowledgement)
+## 🧭 Table of Content
+* [1. 🤖 Model Zoo](#1-model-zoo)
+* [2. ⚡ Quick Start](#2-quick-start)
+* [3. 🛠️ Usage](#3-usage)
+* [4. 🧰 Tools](#4-tools)
+* [5. 📜 Citation](#5-citation)
+* [6. 🙏 Acknowledgement](#6-acknowledgement)
+* [7. ⭐ Star History](#7-star-history)
   
   
 ## 1. Model Zoo
 
-### DEIM-D-FINE
-| Model | Dataset | AP<sup>D-FINE</sup> | AP<sup>DEIM</sup> | #Params | Latency | GFLOPs | config | checkpoint
-| :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: 
-**N** | COCO | **42.8** | **43.0** | 4M | 2.12ms | 7 | [yml](./configs/deim_dfine/deim_hgnetv2_n_coco.yml) | [ckpt](https://drive.google.com/file/d/1ZPEhiU9nhW4M5jLnYOFwTSLQC1Ugf62e/view?usp=sharing) |
-**S** | COCO | **48.7** | **49.0** | 10M | 3.49ms | 25 | [yml](./configs/deim_dfine/deim_hgnetv2_s_coco.yml) | [ckpt](https://drive.google.com/file/d/1tB8gVJNrfb6dhFvoHJECKOF5VpkthhfC/view?usp=drive_link) |
-**M** | COCO | **52.3** | **52.7** | 19M | 5.62ms | 57 | [yml](./configs/deim_dfine/deim_hgnetv2_m_coco.yml) | [ckpt](https://drive.google.com/file/d/18Lj2a6UN6k_n_UzqnJyiaiLGpDzQQit8/view?usp=drive_link) |
-**L** | COCO | **54.0** | **54.7** | 31M | 8.07ms | 91 | [yml](./configs/deim_dfine/deim_hgnetv2_l_coco.yml) | [ckpt](https://drive.google.com/file/d/1PIRf02XkrA2xAD3wEiKE2FaamZgSGTAr/view?usp=drive_link) | 
-**X** | COCO | **55.8** | **56.5** | 62M | 12.89ms | 202 | [yml](./configs/deim_dfine/deim_hgnetv2_x_coco.yml) | [ckpt](https://drive.google.com/file/d/1dPtbgtGgq1Oa7k_LgH1GXPelg1IVeu0j/view?usp=drive_link) | 
+| Model | Dataset | AP | #Params | GFLOPs | Latency (ms) | config | checkpoint | log |
+| :---: | :---: | :---: | :---: | :---: |:------------:| :---: | :---: | :---: |
+| **Atto** | COCO | **23.8** | 0.5M | 0.8 |     1.10     | [yml](./configs/deimv2/deimv2_hgnetv2_atto_coco.yml) | [ckpt](https://drive.google.com/file/d/18sRJXX3FBUigmGJ1y5Oo_DPC5C3JCgYc/view?usp=sharing) | [log](https://drive.google.com/file/d/1M7FLN8EeVHG02kegPN-Wxf_9BlkghZfj/view?usp=sharing) |
+| **Femto** | COCO | **31.0** | 1.0M | 1.7 |     1.45     | [yml](./configs/deimv2/deimv2_hgnetv2_femto_coco.yml) | [ckpt](https://drive.google.com/file/d/16hh6l9Oln9TJng4V0_HNf_Z7uYb7feds/view?usp=sharing) | [log](https://drive.google.com/file/d/1_KWVfOr3bB5TMHTNOmDIAO-tZJmKB9-b/view?usp=sharing) |
+| **Pico** | COCO | **38.5** | 1.5M | 5.2 |     2.13     | [yml](./configs/deimv2/deimv2_hgnetv2_pico_coco.yml) | [ckpt](https://drive.google.com/file/d/1PXpUxYSnQO-zJHtzrCPqQZ3KKatZwzFT/view?usp=sharing) | [log](https://drive.google.com/file/d/1GwyWotYSKmFQdVN9k2MM6atogpbh0lo1/view?usp=sharing) |
+| **N** | COCO | **43.0** | 3.6M | 6.8 |     2.32     | [yml](./configs/deimv2/deimv2_hgnetv2_n_coco.yml) | [ckpt](https://drive.google.com/file/d/1G_Q80EVO4T7LZVPfHwZ3sT65FX5egp9K/view?usp=sharing) | [log](https://drive.google.com/file/d/1QhYfRrUy8HrihD3OwOMJLC-ATr97GInV/view?usp=sharing) |
+| **S** | COCO | **50.9** | 9.7M | 25.6 |     5.78     | [yml](./configs/deimv2/deimv2_dinov3_s_coco.yml) | [ckpt](https://drive.google.com/file/d/1MDOh8UXD39DNSew6rDzGFp1tAVpSGJdL/view?usp=sharing) | [log](https://drive.google.com/file/d/1ydA4lWiTYusV1s3WHq5jSxIq39oxy-Nf/view?usp=sharing) |
+| **M** | COCO | **53.0** | 18.1M | 52.2 |     8.80     | [yml](./configs/deimv2/deimv2_dinov3_m_coco.yml) | [ckpt](https://drive.google.com/file/d/1nPKDHrotusQ748O1cQXJfi5wdShq6bKp/view?usp=sharing) | [log](https://drive.google.com/file/d/1i05Q1-O9UH-2Vb52FpFJ4mBG523GUqJU/view?usp=sharing) |
+| **L** | COCO | **56.0** | 32.2M | 96.7 |    10.47     | [yml](./configs/deimv2/deimv2_dinov3_l_coco.yml) | [ckpt](https://drive.google.com/file/d/1dRJfVHr9HtpdvaHlnQP460yPVHynMray/view?usp=sharing) | [log](https://drive.google.com/file/d/13mrQxyrf1kJ45Yd692UQwdb7lpGoqsiS/view?usp=sharing) |
+| **X** | COCO | **57.8** | 50.3M | 151.6 |    13.75     | [yml](./configs/deimv2/deimv2_dinov3_x_coco.yml) | [ckpt](https://drive.google.com/file/d/1pTiQaBGt8hwtO0mbYlJ8nE-HGztGafS7/view?usp=sharing) | [log](https://drive.google.com/file/d/13QV0SwJw1wHl0xHWflZj1KstBUAovSsV/view?usp=drive_link) |
 
 
-### DEIM-RT-DETRv2
-| Model | Dataset | AP<sup>RT-DETRv2</sup> | AP<sup>DEIM</sup> | #Params | Latency | GFLOPs | config | checkpoint
-| :---: | :---: | :---: | :---: |  :---: | :---: | :---: | :---: | :---: 
-**S** | COCO | **47.9** | **49.0** | 20M | 4.59ms | 60 | [yml](./configs/deim_rtdetrv2/deim_r18vd_120e_coco.yml) | [ckpt](https://drive.google.com/file/d/153_JKff6EpFgiLKaqkJsoDcLal_0ux_F/view?usp=drive_link) | 
-**M** | COCO | **49.9** | **50.9** | 31M | 6.40ms | 92 | [yml](./configs/deim_rtdetrv2/deim_r34vd_120e_coco.yml) | [ckpt](https://drive.google.com/file/d/1O9RjZF6kdFWGv1Etn1Toml4r-YfdMDMM/view?usp=drive_link) | 
-**M*** | COCO | **51.9** | **53.2** | 33M | 6.90ms | 100 | [yml](./configs/deim_rtdetrv2/deim_r50vd_m_60e_coco.yml) | [ckpt](https://drive.google.com/file/d/10dLuqdBZ6H5ip9BbBiE6S7ZcmHkRbD0E/view?usp=drive_link) | 
-**L** | COCO | **53.4** | **54.3** | 42M | 9.15ms | 136 | [yml](./configs/deim_rtdetrv2/deim_r50vd_60e_coco.yml) | [ckpt](https://drive.google.com/file/d/1mWknAXD5JYknUQ94WCEvPfXz13jcNOTI/view?usp=drive_link) | 
-**X** | COCO | **54.3** | **55.5** | 76M | 13.66ms | 259 | [yml](./configs/deim_rtdetrv2/deim_r101vd_60e_coco.yml) | [ckpt](https://drive.google.com/file/d/1BIevZijOcBO17llTyDX32F_pYppBfnzu/view?usp=drive_link) | 
 
 
 ## 2. Quick start
@@ -116,8 +99,8 @@
 ### Setup
 
 ```shell
-conda create -n deim python=3.11.9
-conda activate deim
+conda create -n deimv2 python=3.11 -y
+conda activate deimv2
 pip install -r requirements.txt
 ```
 
@@ -243,6 +226,22 @@ To train on your custom dataset, you need to organize it in the COCO format. Fol
 
 </details>
 
+### Backbone Checkpoints
+
+For DINOv3 S and S+, download them following the guide in https://github.com/facebookresearch/dinov3
+
+For our distilled ViT-Tiny and ViT-Tiny+, you can download them from [ViT-Tiny](https://drive.google.com/file/d/1YMTq_woOLjAcZnHSYNTsNg7f0ahj5LPs/view?usp=sharing) and [ViT-Tiny+](https://drive.google.com/file/d/1COHfjzq5KfnEaXTluVGEOMdhpuVcG6Jt/view?usp=sharing).
+
+Then place them into ./ckpts as:
+
+```shell
+ckpts/
+├── dinov3_vits16.pth
+├── vitt_distill.pt
+├── vittplus_distill.pt
+└── ...
+```
+
 
 ## 3. Usage
 <details open>
@@ -250,57 +249,84 @@ To train on your custom dataset, you need to organize it in the COCO format. Fol
 
 1. Training
 ```shell
-CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --master_port=7777 --nproc_per_node=4 train.py -c configs/deim_dfine/deim_hgnetv2_${model}_coco.yml --use-amp --seed=0
+# for ViT-based variants
+CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --master_port=7777 --nproc_per_node=4 train.py -c configs/deimv2/deimv2_dinov3_${model}_coco.yml --use-amp --seed=0
+
+# for HGNetv2-based variants
+CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --master_port=7777 --nproc_per_node=4 train.py -c configs/deimv2/deimv2_hgnetv2_${model}_coco.yml --use-amp --seed=0
 ```
 
 <!-- <summary>2. Testing </summary> -->
 2. Testing
 ```shell
-CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --master_port=7777 --nproc_per_node=4 train.py -c configs/deim_dfine/deim_hgnetv2_${model}_coco.yml --test-only -r model.pth
+# for ViT-based variants
+CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --master_port=7777 --nproc_per_node=4 train.py -c configs/deimv2/deimv2_dinov3_${model}_coco.yml --test-only -r model.pth
+
+# for HGNetv2-based variants
+CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --master_port=7777 --nproc_per_node=4 train.py -c configs/deimv2/deimv2_hgnetv2_${model}_coco.yml --test-only -r model.pth
 ```
 
 <!-- <summary>3. Tuning </summary> -->
 3. Tuning
 ```shell
-CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --master_port=7777 --nproc_per_node=4 train.py -c configs/deim_dfine/deim_hgnetv2_${model}_coco.yml --use-amp --seed=0 -t model.pth
+# for ViT-based variants
+CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --master_port=7777 --nproc_per_node=4 train.py -c configs/deimv2/deimv2_dinov3_${model}_coco.yml --use-amp --seed=0 -t model.pth
+
+# for HGNetv2-based variants
+CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --master_port=7777 --nproc_per_node=4 train.py -c configs/deimv2/deimv2_hgnetv2_${model}_coco.yml --use-amp --seed=0 -t model.pth
 ```
 </details>
 
 <details>
 <summary> Customizing Batch Size </summary>
 
-For example, if you want to double the total batch size when training D-FINE-L on COCO2017, here are the steps you should follow:
+For example, if you want to use **DEIMv2-S** and  double the total batch size to 64 when training **DEIMv2** on COCO2017, here are the steps you should follow:
 
-1. **Modify your [dataloader.yml](./configs/base/dataloader.yml)** to increase the `total_batch_size`:
+1. **Modify your [deimv2_dinov3_s_coco.yml](./configs/deimv2/deimv2_dinov3_s_coco.yml)** to increase the `total_batch_size`:
 
     ```yaml
     train_dataloader:
-        total_batch_size: 64  # Previously it was 32, now doubled
+      total_batch_size: 64 
+      dataset: 
+        transforms:
+          ops:
+            ...
+    
+      collate_fn:
+        ...
     ```
 
-2. **Modify your [deim_hgnetv2_l_coco.yml](./configs/deim_dfine/deim_hgnetv2_l_coco.yml)**. Here’s how the key parameters should be adjusted:
+2. **Modify your [deimv2_dinov3_s_coco.yml](./configs/deimv2/deimv2_dinov3_s_coco.yml)**. Here’s how the key parameters should be adjusted:
 
     ```yaml
     optimizer:
-    type: AdamW
-    params:
+      type: AdamW
+    
+      params: 
         -
-        params: '^(?=.*backbone)(?!.*norm|bn).*$'
-        lr: 0.000025  # doubled, linear scaling law
+          # except norm/bn/bias in self.dinov3
+          params: '^(?=.*.dinov3)(?!.*(?:norm|bn|bias)).*$'  
+          lr: 0.00005  # doubled, linear scaling law
         -
-        params: '^(?=.*(?:encoder|decoder))(?=.*(?:norm|bn)).*$'
-        weight_decay: 0.
-
-    lr: 0.0005  # doubled, linear scaling law
-    betas: [0.9, 0.999]
-    weight_decay: 0.0001  # need a grid search
-
+          # including all norm/bn/bias in self.dinov3
+          params: '^(?=.*.dinov3)(?=.*(?:norm|bn|bias)).*$'    
+          lr: 0.00005   # doubled, linear scaling law
+          weight_decay: 0.
+        - 
+          # including all norm/bn/bias except for the self.dinov3
+          params: '^(?=.*(?:sta|encoder|decoder))(?=.*(?:norm|bn|bias)).*$'
+          weight_decay: 0.
+    
+      lr: 0.0005   # linear scaling law if needed
+      betas: [0.9, 0.999]
+      weight_decay: 0.0001
+   
     ema:  # added EMA settings
-        decay: 0.9998  # adjusted by 1 - (1 - decay) * 2
-        warmups: 500  # halved
-
+      decay: 0.9998  # adjusted by 1 - (1 - decay) * 2
+      warmups: 500  # halved
+   
     lr_warmup_scheduler:
-        warmup_duration: 250  # halved
+      warmup_duration: 250  # halved
     ```
 
 </details>
@@ -309,30 +335,70 @@ For example, if you want to double the total batch size when training D-FINE-L o
 <details>
 <summary> Customizing Input Size </summary>
 
-If you'd like to train **DEIM** on COCO2017 with an input size of 320x320, follow these steps:
+If you'd like to train **DEIMv2-S** on COCO2017 with an input size of 320x320, follow these steps:
 
-1. **Modify your [dataloader.yml](./configs/base/dataloader.yml)**:
-
-    ```yaml
-
-    train_dataloader:
-    dataset:
-        transforms:
-            ops:
-                - {type: Resize, size: [320, 320], }
-    collate_fn:
-        base_size: 320
-    dataset:
-        transforms:
-            ops:
-                - {type: Resize, size: [320, 320], }
-    ```
-
-2. **Modify your [dfine_hgnetv2.yml](./configs/base/dfine_hgnetv2.yml)**:
+1. **Modify your  [deimv2_dinov3_s_coco.yml](./configs/deimv2/deimv2_dinov3_s_coco.yml)**:
 
     ```yaml
     eval_spatial_size: [320, 320]
+   
+    train_dataloader:
+      # Here we set the total_batch_size to 64 as an example.
+      total_batch_size: 64 
+      dataset: 
+        transforms:
+          ops:
+            #  Especially for Mosaic augmentation, it is recommended that output_size = input_size / 2.
+            - {type: Mosaic, output_size: 160, rotation_range: 10, translation_range: [0.1, 0.1], scaling_range: [0.5, 1.5],
+               probability: 1.0, fill_value: 0, use_cache: True, max_cached_images: 50, random_pop: True}
+            ...
+            - {type: Resize, size: [320, 320], }
+            ...
+        collate_fn:
+          base_size: 320
+          ...
+
+    val_dataloader:
+      dataset:
+        transforms:
+          ops:
+            - {type: Resize, size: [320, 320], }
+            ...
     ```
+   
+</details>
+
+<details>
+<summary> Customizing Epoch </summary>
+
+If you want to finetune **DEIMv2-S** for **20** epochs, follow these steps (for reference only; feel free to adjust them according to your needs):
+
+```yml
+epoches: 32 #  Total epochs: 20 for training + EMA  for 4n = 12. n refers to the model size in the matched config.
+
+flat_epoch: 14    # 4 + 20 // 2
+no_aug_epoch: 12  # 4n
+
+train_dataloader:
+  dataset: 
+    transforms:
+      ops:
+        ...
+      policy:
+        epoch: [4, 14, 20]   # [start_epoch, flat_epoch, epoches - no_aug_epoch]
+
+  collate_fn:
+    ...
+    mixup_epochs: [4, 14]  # [start_epoch, flat_epoch]
+    stop_epoch: 20  # epoches - no_aug_epoch
+    copyblend_epochs: [4, 20]  # [start_epoch, epoches - no_aug_epoch]
+  
+DEIMCriterion:
+  matcher:
+    ...
+    matcher_change_epoch: 18  # ~90% of (epoches - no_aug_epoch)
+
+```
 
 </details>
 
@@ -348,7 +414,7 @@ pip install onnx onnxsim
 
 2. Export onnx
 ```shell
-python tools/deployment/export_onnx.py --check -c configs/deim_dfine/deim_hgnetv2_${model}_coco.yml -r model.pth
+python tools/deployment/export_onnx.py --check -c configs/deimv2/deimv2_dinov3_${model}_coco.yml -r model.pth
 ```
 
 3. Export [tensorrt](https://docs.nvidia.com/deeplearning/tensorrt/install-guide/index.html)
@@ -375,7 +441,7 @@ Inference on images and videos is now supported.
 ```shell
 python tools/inference/onnx_inf.py --onnx model.onnx --input image.jpg  # video.mp4
 python tools/inference/trt_inf.py --trt model.engine --input image.jpg
-python tools/inference/torch_inf.py -c configs/deim_dfine/deim_hgnetv2_${model}_coco.yml -r model.pth --input image.jpg --device cuda:0
+python tools/inference/torch_inf.py -c configs/deimv2/deimv2_dinov3_${model}_coco.yml -r model.pth --input image.jpg --device cuda:0
 ```
 </details>
 
@@ -390,7 +456,7 @@ pip install -r tools/benchmark/requirements.txt
 <!-- <summary>6. Benchmark </summary> -->
 2. Model FLOPs, MACs, and Params
 ```shell
-python tools/benchmark/get_info.py -c configs/deim_dfine/deim_hgnetv2_${model}_coco.yml
+python tools/benchmark/get_info.py -c configs/deimv2/deimv2_dinov3_${model}_coco.yml
 ```
 
 2. TensorRT Latency
@@ -408,7 +474,7 @@ pip install fiftyone
 ```
 4. Voxel51 Fiftyone Visualization ([fiftyone](https://github.com/voxel51/fiftyone))
 ```shell
-python tools/visualization/fiftyone_vis.py -c configs/deim_dfine/deim_hgnetv2_${model}_coco.yml -r model.pth
+python tools/visualization/fiftyone_vis.py -c configs/deimv2/deimv2_dinov3_${model}_coco.yml -r model.pth
 ```
 </details>
 
@@ -428,21 +494,26 @@ python reference/convert_weight.py model.pth
 
 
 ## 5. Citation
-If you use `DEIM` or its methods in your work, please cite the following BibTeX entries:
+If you use `DEIMv2` or its methods in your work, please cite the following BibTeX entries:
 <details open>
 <summary> bibtex </summary>
 
 ```latex
-@misc{huang2024deim,
-      title={DEIM: DETR with Improved Matching for Fast Convergence},
-      author={Shihua Huang, Zhichao Lu, Xiaodong Cun, Yongjun Yu, Xiao Zhou, and Xi Shen},
-      booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
-      year={2025},
+@article{huang2025deimv2,
+  title={Real-Time Object Detection Meets DINOv3},
+  author={Huang, Shihua and Hou, Yongjie and Liu, Longfei and Yu, Xuanlong and Shen, Xi},
+  journal={arXiv},
+  year={2025}
 }
+  
 ```
 </details>
 
 ## 6. Acknowledgement
-Our work is built upon [D-FINE](https://github.com/Peterande/D-FINE) and [RT-DETR](https://github.com/lyuwenyu/RT-DETR).
+Our work is built upon [D-FINE](https://github.com/Peterande/D-FINE), [RT-DETR](https://github.com/lyuwenyu/RT-DETR), [DEIM](https://github.com/ShihuaHuang95/DEIM), and [DINOv3](https://github.com/facebookresearch/dinov3). Thanks for their great work!
 
 ✨ Feel free to contribute and reach out if you have any questions! ✨
+
+## 7. Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Intellindust-AI-Lab/DEIMv2&type=Date)](https://www.star-history.com/#Intellindust-AI-Lab/DEIMv2&Date)
