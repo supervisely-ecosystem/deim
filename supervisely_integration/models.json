@@ -10,7 +10,7 @@
       "task_type": "object detection",
       "model_name": "DEIMv2 HGNETv2 Atto",
       "model_files": {
-        "checkpoint": "https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_hgnetv2_atto_coco.pth",
+        "checkpoint": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deimv2_hgnetv2_atto_coco.pth",
         "config": "deimv2_hgnetv2_atto_coco.yml"
       }
     }
@@ -26,7 +26,7 @@
       "task_type": "object detection",
       "model_name": "DEIMv2 HGNETv2 Femto",
       "model_files": {
-        "checkpoint": "https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_hgnetv2_femto_coco.pth",
+        "checkpoint": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deimv2_hgnetv2_femto_coco.pth",
         "config": "deimv2_hgnetv2_femto_coco.yml"
       }
     }
@@ -42,7 +42,7 @@
       "task_type": "object detection",
       "model_name": "DEIMv2 HGNETv2 Pico",
       "model_files": {
-        "checkpoint": "https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_hgnetv2_pico_coco.pth",
+        "checkpoint": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deimv2_hgnetv2_pico_coco.pth",
         "config": "deimv2_hgnetv2_pico_coco.yml"
       }
     }
@@ -58,7 +58,7 @@
       "task_type": "object detection",
       "model_name": "DEIMv2 HGNETv2 N",
       "model_files": {
-        "checkpoint": "https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_hgnetv2_n_coco.pth",
+        "checkpoint": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deimv2_hgnetv2_n_coco.pth",
         "config": "deimv2_hgnetv2_n_coco.yml"
       }
     }
@@ -74,7 +74,7 @@
       "task_type": "object detection",
       "model_name": "DEIMv2 DINOv3 S",
       "model_files": {
-        "checkpoint": "https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_dinov3_s_coco.pth",
+        "checkpoint": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deimv2_dinov3_s_coco.pth",
         "config": "deimv2_dinov3_s_coco.yml"
       }
     }
@@ -90,7 +90,7 @@
       "task_type": "object detection",
       "model_name": "DEIMv2 DINOv3 M",
       "model_files": {
-        "checkpoint": "https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_dinov3_m_coco.pth",
+        "checkpoint": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deimv2_dinov3_m_coco.pth",
         "config": "deimv2_dinov3_m_coco.yml"
       }
     }
@@ -106,7 +106,7 @@
       "task_type": "object detection",
       "model_name": "DEIMv2 DINOv3 L",
       "model_files": {
-        "checkpoint": "https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_dinov3_l_coco.pth",
+        "checkpoint": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deimv2_dinov3_l_coco.pth",
         "config": "deimv2_dinov3_s_coco.yml"
       }
     }
@@ -122,7 +122,7 @@
       "task_type": "object detection",
       "model_name": "DEIMv2 DINOv3 X",
       "model_files": {
-        "checkpoint": "https://github.com/supervisely-ecosystem/DEIMv2/releases/download/v0.0.1/deimv2_dinov3_x_coco.pth",
+        "checkpoint": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/deimv2_dinov3_x_coco.pth",
         "config": "deimv2_dinov3_x_coco.yml"
       }
     }
