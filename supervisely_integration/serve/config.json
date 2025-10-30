@@ -7,6 +7,7 @@
   "categories": [
     "neural network",
     "images",
+    "videos",
     "object detection",
     "serve",
     "framework:DEIM"
@@ -17,7 +18,10 @@
   "description": "Deploy DEIMv2 models as a REST API service",
   "need_gpu": false,
   "gpu": "preferred",
-  "session_tags": ["deployed_nn"],
+  "session_tags": [
+    "deployed_nn",
+    "sly_video_tracking_by_detection"
+  ],
   "community_agent": false,
   "docker_image": "supervisely/deim:1.1.0",
   "cuda_version": 12.8,
