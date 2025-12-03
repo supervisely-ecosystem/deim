@@ -177,10 +177,18 @@ class DEIM(sly.nn.inference.ObjectDetection):
             if score < conf_tresh:
                 continue
             class_name = self.classes[label]
-            bbox_xyxy = np.round(bbox_xyxy).astype(int)
+
+            bbox_xyxy = np.round(bbox_xyxy).astype(float)
             bbox_xyxy = np.clip(bbox_xyxy, 0, None)
-            bbox_yxyx = [bbox_xyxy[1], bbox_xyxy[0], bbox_xyxy[3], bbox_xyxy[2]]
-            bbox_yxyx = list(map(int, bbox_yxyx))
+
+            x1, y1, x2, y2 = bbox_xyxy
+            left, right = sorted([x1, x2])
+            top, bottom = sorted([y1, y2])
+
+            if bottom <= top or right <= left:
+                continue
+
+            bbox_yxyx = [int(top), int(left), int(bottom), int(right)]
             predictions.append(PredictionBBox(class_name, bbox_yxyx, float(score)))
         return predictions
 
