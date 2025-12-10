@@ -18,18 +18,15 @@
   "description": "Deploy DEIMv2 models as a REST API service",
   "need_gpu": false,
   "gpu": "preferred",
-  "session_tags": [
-    "deployed_nn",
-    "sly_video_tracking_by_detection"
-  ],
+  "session_tags": ["deployed_nn", "sly_video_tracking_by_detection"],
   "community_agent": false,
-  "docker_image": "supervisely/deim:1.1.0",
+  "docker_image": "supervisely/deim:1.1.1",
   "cuda_version": 12.8,
   "task_location": "application_sessions",
   "license": {
     "type": "Apache-2.0"
   },
-  "instance_version": "6.15.5",
+  "instance_version": "6.15.35",
   "files": {
     "models": "supervisely_integration/models.json",
     "inference_settings": "supervisely_integration/serve/inference_settings.yaml",
