@@ -1,46 +1,54 @@
 {
-  "type": "app",
-  "version": "2.0.0",
-  "name": "Train DEIMv2",
-  "entrypoint": "python3 -m uvicorn main:train.app --host 0.0.0.0 --port 8000 --ws websockets --app-dir supervisely_integration/train",
-  "port": 8000,
-  "categories": [
-    "neural network",
-    "images",
-    "object detection",
-    "train",
-    "framework:DEIM"
-  ],
-  "icon": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/icon_deimv2_train.png",
-  "icon_cover": true,
-  "poster": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/poster_deimv2_train.png",
-  "description": "Train DEIMv2 models on your data",
-  "docker_image": "supervisely/deim:1.1.1",
-  "cuda_version": 12.8,
-  "instance_version": "6.15.35",
-  "task_location": "workspace_tasks",
-  "need_gpu": true,
-  "gpu": "required",
-  "community_agent": false,
-  "context_menu": {
-    "target": ["images_project"],
-    "context_root": "Neural Networks"
-  },
-  "license": {
-    "type": "Apache-2.0"
-  },
-  "files": {
-    "models": "supervisely_integration/models.json",
-    "inference_settings": "supervisely_integration/serve/inference_settings.yaml",
-    "hyperparams": "supervisely_integration/train/hyperparameters.yaml"
-  },
-  "framework": {
-    "name": "DEIM",
-    "tags": ["SOTA", "Real-Time"],
-    "export": ["ONNX", "TensorRT"],
-    "conference": "CVPR 2025",
-    "released": "2025",
-    "description": "SOTA real-time object detection model based on DETR architecture. The framework is designed to accelerate training convergence and improve detection accuracy.",
-    "github": "https://github.com/Intellindust-AI-Lab/DEIMv2"
-  }
+    "type": "app",
+    "version": "2.0.0",
+    "name": "Train DEIMv2",
+    "entrypoint": "python3 -m uvicorn main:train.app --host 0.0.0.0 --port 8000 --ws websockets --app-dir supervisely_integration/train",
+    "port": 8000,
+    "categories": [
+        "neural network",
+        "images",
+        "object detection",
+        "train",
+        "framework:DEIM"
+    ],
+    "icon": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/icon_deimv2_train.png",
+    "icon_cover": true,
+    "poster": "https://github.com/supervisely-ecosystem/deim/releases/download/v0.0.1/poster_deimv2_train.png",
+    "description": "Train DEIMv2 models on your data",
+    "docker_image": "supervisely/deim:1.1.2",
+    "cuda_version": 12.8,
+    "instance_version": "6.15.35",
+    "task_location": "workspace_tasks",
+    "need_gpu": true,
+    "gpu": "required",
+    "community_agent": false,
+    "context_menu": {
+        "target": [
+            "images_project"
+        ],
+        "context_root": "Neural Networks"
+    },
+    "license": {
+        "type": "Apache-2.0"
+    },
+    "files": {
+        "models": "supervisely_integration/models.json",
+        "inference_settings": "supervisely_integration/serve/inference_settings.yaml",
+        "hyperparams": "supervisely_integration/train/hyperparameters.yaml"
+    },
+    "framework": {
+        "name": "DEIM",
+        "tags": [
+            "SOTA",
+            "Real-Time"
+        ],
+        "export": [
+            "ONNX",
+            "TensorRT"
+        ],
+        "conference": "CVPR 2025",
+        "released": "2025",
+        "description": "SOTA real-time object detection model based on DETR architecture. The framework is designed to accelerate training convergence and improve detection accuracy.",
+        "github": "https://github.com/Intellindust-AI-Lab/DEIMv2"
+    }
 }
