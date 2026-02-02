@@ -2,6 +2,7 @@
 model_selector:
   enabled: true
   show_custom: true
+  default_model: "DEIMv2 HGNETv2 Atto"
 
 # ==================== Data Selection ==============
 # if false, use all classes from project meta
