@@ -41,8 +41,6 @@ api = sly.Api.from_env()
 #   -v "./47676_DEIM:/model" \
 #   -p 8000:8000 \
 #   supervisely/deim:1.1.6-deploy \
-#   deploy \
-#   --model "/model/checkpoints/best.pth"
 
 ################################
 # 3. Run locally               #
