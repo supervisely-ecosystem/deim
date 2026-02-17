@@ -32,11 +32,13 @@ class DEIM(sly.nn.inference.ObjectDetection):
         self, model_files: dict, model_info: dict, model_source: str, device: str, runtime: str
     ):
         self._clear_global_config()
-        if model_source == ModelSource.CUSTOM:
+
+        if model_source == ModelSource.PRETRAINED:
+            checkpoint_path, config_path = self._prepare_pretrained_model(model_files, model_info)
+        elif model_source == ModelSource.CUSTOM or model_source == ModelSource.EXTERNAL:
             checkpoint_path, config_path = self._prepare_custom_model(model_files)
         else:
-            checkpoint_path, config_path = self._prepare_pretrained_model(model_files, model_info)
-
+            raise ValueError(f"Invalid model source: {model_source}")
         self._load_transforms(config_path)
         if runtime == RuntimeType.PYTORCH:
             self._load_pytorch(checkpoint_path, config_path, device)
