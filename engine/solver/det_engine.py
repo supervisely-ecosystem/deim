@@ -141,6 +141,14 @@ def evaluate(model: torch.nn.Module, criterion: torch.nn.Module, postprocessor, 
     # coco_evaluator = CocoEvaluator(base_ds, iou_types)
     # coco_evaluator.coco_eval[iou_types[0]].params.iouThrs = [0, 0.1, 0.5, 0.75]
 
+    # The dataset trains on contiguous labels 0..N-1 (CocoDetection.category2label). Unless the
+    # postprocessor already remaps MSCOCO labels, map predicted labels back to the dataset's
+    # category ids before they meet the COCO ground truth.
+    label2category = None
+    if not getattr(postprocessor, 'remap_mscoco_category', False) and hasattr(data_loader.dataset, 'label2category'):
+        l2c = data_loader.dataset.label2category
+        label2category = torch.tensor([l2c[i] for i in range(len(l2c))], dtype=torch.int64, device=device)
+
     for samples, targets in metric_logger.log_every(data_loader, 10, header):
         samples = samples.to(device)
         targets = [{k: v.to(device) for k, v in t.items()} for t in targets]
@@ -154,6 +162,10 @@ def evaluate(model: torch.nn.Module, criterion: torch.nn.Module, postprocessor, 
         # if 'segm' in postprocessor.keys():
         #     target_sizes = torch.stack([t["size"] for t in targets], dim=0)
         #     results = postprocessor['segm'](results, outputs, orig_target_sizes, target_sizes)
+
+        if label2category is not None:
+            for result in results:
+                result['labels'] = label2category[result['labels']]
 
         res = {target['image_id'].item(): output for target, output in zip(targets, results)}
         if coco_evaluator is not None:
