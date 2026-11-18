@@ -40,5 +40,3 @@ train_dataloader:
     transforms:
       policy:
         epoch: 117
-  collate_fn:
-    scales: ~
