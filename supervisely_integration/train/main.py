@@ -1,4 +1,5 @@
 import os
+import resource
 import shutil
 from multiprocessing import cpu_count
 
@@ -27,6 +28,7 @@ train.register_inference_class(DEIM, inference_settings)
 
 @train.start
 def start_training():
+    _raise_open_file_limit()
     train_ann_path, val_ann_path = convert_data()
     checkpoint = train.model_files["checkpoint"]
     custom_config_path = prepare_config(train_ann_path, val_ann_path)
@@ -143,6 +145,25 @@ def remove_include(config_path: str):
         config.pop("__include__")
         with open(config_path, "w") as f:
             yaml.dump(config, f)
+
+
+def _raise_open_file_limit(min_limit: int = 65536):
+    # DataLoader workers pass every tensor to the main process as an open file descriptor,
+    # so a low soft limit (1024 by default in Docker 29+) fails with "received 0 items of ancdata"
+    soft, hard = resource.getrlimit(resource.RLIMIT_NOFILE)
+    target = hard if hard != resource.RLIM_INFINITY else 1048576
+    if soft != resource.RLIM_INFINITY and soft < target:
+        try:
+            resource.setrlimit(resource.RLIMIT_NOFILE, (target, hard))
+            soft = target
+        except (ValueError, OSError) as e:
+            sly.logger.warning(f"Failed to raise the open file limit: {e}")
+    if soft != resource.RLIM_INFINITY and soft < min_limit:
+        torch.multiprocessing.set_sharing_strategy("file_system")
+    sly.logger.info(
+        f"Open file limit: {soft}, "
+        f"tensor sharing strategy: {torch.multiprocessing.get_sharing_strategy()}"
+    )
 
 
 def _set_input_size_dataloaders(custom_config: dict, size: list):
